@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+cd -- "$(dirname -- "$0")"
+[ -d bootstrap.d ] && cd bootstrap.d || exit 0
+
+find -L . -type f | sort | while IFS="
+" read -r script
+do
+    if [ -x "$script" ] && echo "$script" | grep -qv "##"
+    then
+        echo "Executing '$script'..."
+        if ! "$script"
+        then
+            echo "Error: '$script' failed, aborting bootstrap" >&2
+            exit 1
+        fi
+    fi
+done
+

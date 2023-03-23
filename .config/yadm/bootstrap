@@ -4,6 +4,8 @@ set -eu
 cd -- "$(dirname -- "$0")"
 [ -d bootstrap.d ] && cd bootstrap.d || exit 0
 
+. "${XDG_CONFIG_HOME:-"$HOME/.config"}/xdg_paths.shell"
+
 find -L . -type f | sort | while IFS="
 " read -r script
 do

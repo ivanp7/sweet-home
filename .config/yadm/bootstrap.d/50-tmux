@@ -1,0 +1,50 @@
+#!/bin/sh
+set -eu
+
+PLUGINS_DIR="$XDG_CACHE_HOME/tmux/plugins"
+
+case "$1" in
+    bootstrap)
+        echo
+
+        if [ ! -d "$PLUGINS_DIR" ]
+        then
+            # Create plugins directory
+            echo "Creating tmux plugins directory..."
+            mkdir -p -- "$PLUGINS_DIR"
+        fi
+
+        if [ ! -d "$PLUGINS_DIR/tpm" ]
+        then
+            # Install tpm
+            echo "Cloning tmux plugin manager git repo..."
+            git clone "https://github.com/tmux-plugins/tpm" "$PLUGINS_DIR/tpm"
+
+            # Install plugins
+            echo "Invoking 'install_plugins' tpm command..."
+            "$PLUGINS_DIR/tpm/bin/install_plugins"
+        else
+            # Remove unused plugins
+            echo "Invoking 'clean_plugins' tpm command..."
+            "$PLUGINS_DIR/tpm/bin/clean_plugins"
+
+            # Update used plugins
+            echo "Invoking 'update_plugins all' tpm command..."
+            "$PLUGINS_DIR/tpm/bin/update_plugins" all
+        fi
+
+        echo
+        ;;
+
+    cleanup)
+        echo
+
+        echo "Removing tmux plugins directory..."
+        rm -r -- "$PLUGINS_DIR"
+
+        echo
+        ;;
+esac
+
+unset PLUGINS_DIR
+

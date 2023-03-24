@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+case "$1" in
+    bootstrap)
+        echo
+
+        echo "Setting correct permissions on the gnupg directory..."
+        chmod 700 -- "$GNUPGHOME/"
+        chmod 600 -- "$GNUPGHOME/gpg.conf"
+        chmod 600 -- "$GNUPGHOME/gpg-agent.conf"
+
+        echo
+        ;;
+esac
+

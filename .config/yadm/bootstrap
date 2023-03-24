@@ -1,22 +1,24 @@
 #!/bin/sh
 set -eu
 
-cd -- "$(dirname -- "$0")"
-[ -d "bootstrap.d" ] || exit 0
-
 . "$HOME/.local/env.shell"
 
-find -L "bootstrap.d" -type f | sort | while IFS="
+cd -- "$(dirname -- "$0")"
+
+if [ -d "bootstrap.d" ]
+then
+    find -L "bootstrap.d" -type f | sort | while IFS="
 " read -r script
-do
-    if [ -x "$script" ] && echo "$script" | grep -qv "##"
-    then
-        echo "[X] Executing '$script'..." >&2
-        if ! "$script" >&2
+    do
+        if [ -x "$script" ] && echo "$script" | grep -qv "##"
         then
-            echo "Error: '$script' failed, aborting bootstrap" >&2
-            exit 1
+            echo "[X] Executing '$script'..."
+            if ! "$script" bootstrap
+            then
+                echo "Error: '$script' failed, aborting bootstrap"
+                exit 1
+            fi
         fi
-    fi
-done
+    done
+fi
 

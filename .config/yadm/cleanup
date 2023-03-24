@@ -1,0 +1,44 @@
+#!/bin/sh
+set -eu
+
+. "$HOME/.local/env.shell"
+
+echo "1. Removing special bootstrapped files..."
+echo
+
+cd -- "$(dirname -- "$0")"
+
+if [ -d "bootstrap.d" ]
+then
+    find -L "bootstrap.d" -type f | sort -r | while IFS="
+" read -r script
+    do
+        if [ -x "$script" ] && echo "$script" | grep -qv "##"
+        then
+            echo "[X] Executing '$script'..."
+            if ! "$script" cleanup
+            then
+                echo "Error: '$script' failed, aborting cleanup"
+                exit 1
+            fi
+        fi
+    done
+fi
+
+echo
+echo "2. Removing ordinary repository files..."
+echo
+
+cd -- "$HOME"
+
+yadm ls-files | while IFS="
+" read -r file
+do
+    rm -v -- "$file"
+    rmdir -pv --ignore-fail-on-non-empty -- "$(dirname -- "$file")"
+done
+
+# remove yadm data & configuration directories
+rm -rv -- "$XDG_DATA_HOME/yadm/repo.git"
+rmdir -pv --ignore-fail-on-non-empty -- "$XDG_DATA_HOME/yadm" "$XDG_CONFIG_HOME/yadm"
+

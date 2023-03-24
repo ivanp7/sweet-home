@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Install plug.vim
 curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs \

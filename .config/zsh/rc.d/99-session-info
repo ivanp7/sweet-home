@@ -1,0 +1,12 @@
+if [ "$_p_no_session_info" ]
+then
+    unset _p_no_session_info
+else
+    if [[ ! -o login ]]
+    then
+        echo
+        separator
+        session-info.sh
+    fi
+fi
+

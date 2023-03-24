@@ -1,0 +1,37 @@
+alias ssh256='TERM=xterm-256color ssh '
+
+ssh_agent_add ()
+{
+    [ -z "$SSH_AUTH_SOCK" ] && eval $(ssh-agent -s) > /dev/null
+}
+
+ssh_agent_kill ()
+{
+    [ -n "$SSH_AUTH_SOCK" ] && eval $(ssh-agent -k) > /dev/null
+}
+
+ssh_add_auth ()
+{
+    [ "$SSH_AUTH_SOCK" ] || return
+
+    local passphrase="$(pass "computers/$HOST/os/linux/$USER/ssh/passphrase" 2> /dev/null)"
+    [ "$passphrase" ] || local passphrase="$(pass "vm/$HOST/os/linux/$USER/ssh/passphrase" 2> /dev/null)"
+
+    if [ "$passphrase" ]
+    then
+        echo '
+
+set username [lindex $argv 0]
+set password [lindex $argv 1]
+
+spawn ssh-add
+expect "Enter passphrase for /home/$username/.ssh/id_rsa: "
+send "$password\n";
+expect "Identity added: /home/$username/.ssh/id_rsa (/home/$username/.ssh/id_rsa)"
+
+' | expect - "$USER" "$passphrase"
+    else
+        ssh-add
+    fi
+}
+

@@ -7,12 +7,12 @@ echo
 
 # Install plug.vim
 echo "Downloading vim-plug..."
-# if ! curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs \
-#     "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-# then
-#     echo "Couldn't download vim-plug"
-#     exit 1
-# fi
+if ! curl -fLo "$XDG_DATA_HOME/nvim/site/autoload/plug.vim" --create-dirs \
+    "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+then
+    echo "Couldn't download vim-plug"
+    exit 1
+fi
 echo
 
 # Install/update plugins

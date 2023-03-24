@@ -40,7 +40,7 @@ case "$1" in
         echo
 
         echo "Removing tmux plugins directory..."
-        rm -r -- "$PLUGINS_DIR"
+        rm -rf -- "$PLUGINS_DIR"
 
         echo
         ;;

@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -u
 
 . "$HOME/.local/env.shell"
 
@@ -35,10 +35,13 @@ yadm ls-files | while IFS="
 " read -r file
 do
     rm -v -- "$file"
-    rmdir -pv --ignore-fail-on-non-empty -- "$(dirname -- "$file")"
+    rmdir -p --ignore-fail-on-non-empty -- "$(dirname -- "$file")"
 done
 
-# remove yadm data & configuration directories
-rm -rv -- "$XDG_DATA_HOME/yadm/repo.git"
-rmdir -pv --ignore-fail-on-non-empty -- "$XDG_DATA_HOME/yadm" "$XDG_CONFIG_HOME/yadm"
+echo
+echo "3. Removing yadm repository..."
+echo
+
+rm -rf -- "$XDG_DATA_HOME/yadm/repo.git"
+rmdir -p --ignore-fail-on-non-empty -- "$XDG_DATA_HOME/yadm" "$XDG_CONFIG_HOME/yadm"
 

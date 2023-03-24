@@ -40,10 +40,10 @@ case "$1" in
 
         echo "Remove vim-plug..."
         rm -- "$XDG_DATA_HOME/nvim/site/autoload/plug.vim"
-        rmdir -pv --ignore-fail-on-non-empty -- "$XDG_DATA_HOME/nvim/site/autoload"
+        rmdir -p --ignore-fail-on-non-empty -- "$XDG_DATA_HOME/nvim/site/autoload"
 
         echo "Remove vim plugins directory..."
-        rm -r -- "$XDG_CACHE_HOME/nvim/plugged"
+        rm -rf -- "$XDG_CACHE_HOME/nvim/plugged"
 
         echo
         ;;

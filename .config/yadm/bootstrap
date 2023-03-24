@@ -2,17 +2,17 @@
 set -eu
 
 cd -- "$(dirname -- "$0")"
-[ -d bootstrap.d ] && cd bootstrap.d || exit 0
+[ -d "bootstrap.d" ] || exit 0
 
 . "${XDG_CONFIG_HOME:-"$HOME/.config"}/xdg_paths.shell"
 
-find -L . -type f | sort | while IFS="
+find -L "bootstrap.d" -type f | sort | while IFS="
 " read -r script
 do
     if [ -x "$script" ] && echo "$script" | grep -qv "##"
     then
-        echo "Executing '$script'..."
-        if ! "$script"
+        echo "[X] Executing '$script'..." >&2
+        if ! "$script" >&2
         then
             echo "Error: '$script' failed, aborting bootstrap" >&2
             exit 1

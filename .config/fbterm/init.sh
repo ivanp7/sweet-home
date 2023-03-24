@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export TERM="fbterm-256color"
+export TERM="fbterm"
 
 cd
 

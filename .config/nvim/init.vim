@@ -492,170 +492,172 @@ endfor
 call plug#end()
 
 " }}}
-" basic things {{{
+if isdirectory($XDG_CACHE_HOME . '/nvim/plugged')
+    " basic things {{{
 
-" ******************** vim-sneak **************************
+    " ******************** vim-sneak **************************
 
-let g:sneak#label = 1
-let g:sneak#target_labels = ";sftunq/[]SFGHLTUNRMZ?0"
-let g:sneak#s_next = 1
+    let g:sneak#label = 1
+    let g:sneak#target_labels = ";sftunq/[]SFGHLTUNRMZ?0"
+    let g:sneak#s_next = 1
 
-" }}}
-" appearance {{{
+    " }}}
+    " appearance {{{
 
-" ******************** COLOR SCHEME ********************
+    " ******************** COLOR SCHEME ********************
 
-colorscheme monochrome
+    colorscheme monochrome
 
-" tweak color scheme
-highlight CursorLine        guibg=#444444
-highlight CursorColumn      guibg=#444444
-highlight CursorLineNR      guifg=#ee3333
-highlight LineNr            guifg=#999999
-highlight MatchParen        guifg=#ffffff guibg=#ff0000
-highlight ColorColumn       guibg=#3a3a3a
-highlight IncSearch         guifg=#aa2200 guibg=#ffffff
+    " tweak color scheme
+    highlight CursorLine        guibg=#444444
+    highlight CursorColumn      guibg=#444444
+    highlight CursorLineNR      guifg=#ee3333
+    highlight LineNr            guifg=#999999
+    highlight MatchParen        guifg=#ffffff guibg=#ff0000
+    highlight ColorColumn       guibg=#3a3a3a
+    highlight IncSearch         guifg=#aa2200 guibg=#ffffff
 
-highlight debugPC           guibg=#4444aa
-highlight debugBreakPoint   guibg=#aa0000
+    highlight debugPC           guibg=#4444aa
+    highlight debugBreakPoint   guibg=#aa0000
 
-" terminal colors
+    " terminal colors
 
-" 8 normal colors
-let g:terminal_color_0 = '#000000' " black
-let g:terminal_color_1 = '#d54e53' " red
-let g:terminal_color_2 = '#b9ca4a' " green
-let g:terminal_color_3 = '#e6c547' " yellow
-let g:terminal_color_4 = '#7aa6da' " blue
-let g:terminal_color_5 = '#c397d8' " magenta
-let g:terminal_color_6 = '#70c0ba' " cyan
-let g:terminal_color_7 = '#eaeaea' " white
-" 8 bright colors
-let g:terminal_color_8  = '#666666' " black
-let g:terminal_color_9  = '#ff3334' " red
-let g:terminal_color_10 = '#9ec400' " green
-let g:terminal_color_11 = '#e7c547' " yellow
-let g:terminal_color_12 = '#7aa6da' " blue
-let g:terminal_color_13 = '#b77ee0' " magenta
-let g:terminal_color_14 = '#54ced6' " cyan
-let g:terminal_color_15 = '#ffffff' " white
+    " 8 normal colors
+    let g:terminal_color_0 = '#000000' " black
+    let g:terminal_color_1 = '#d54e53' " red
+    let g:terminal_color_2 = '#b9ca4a' " green
+    let g:terminal_color_3 = '#e6c547' " yellow
+    let g:terminal_color_4 = '#7aa6da' " blue
+    let g:terminal_color_5 = '#c397d8' " magenta
+    let g:terminal_color_6 = '#70c0ba' " cyan
+    let g:terminal_color_7 = '#eaeaea' " white
+    " 8 bright colors
+    let g:terminal_color_8  = '#666666' " black
+    let g:terminal_color_9  = '#ff3334' " red
+    let g:terminal_color_10 = '#9ec400' " green
+    let g:terminal_color_11 = '#e7c547' " yellow
+    let g:terminal_color_12 = '#7aa6da' " blue
+    let g:terminal_color_13 = '#b77ee0' " magenta
+    let g:terminal_color_14 = '#54ced6' " cyan
+    let g:terminal_color_15 = '#ffffff' " white
 
-" ******************** vim-lightline **************************
+    " ******************** vim-lightline **************************
 
-function! LanguageStatus(...) abort
-    return &iminsert == 1 ? (a:0 == 1 ? a:1 : 'RU') : ''
-endfunction
+    function! LanguageStatus(...) abort
+        return &iminsert == 1 ? (a:0 == 1 ? a:1 : 'RU') : ''
+    endfunction
 
-function! CapsLockStatus(...) abort
-    return CapsLockStatusline('CAPS')
-endfunction
+    function! CapsLockStatus(...) abort
+        return CapsLockStatusline('CAPS')
+    endfunction
 
-let g:lightline = {
-      \ 'colorscheme': 'powerline',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'lang', 'caps', 'paste' ],
-      \             [ 'gitbranch', 'filename', 'readonly', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'lang': 'LanguageStatus',
-      \   'caps': 'CapsLockStatus',
-      \   'gitbranch': 'fugitive#head'
-      \ },
-      \ }
+    let g:lightline = {
+        \ 'colorscheme': 'powerline',
+        \ 'active': {
+        \   'left': [ [ 'mode', 'lang', 'caps', 'paste' ],
+        \             [ 'gitbranch', 'filename', 'readonly', 'modified' ] ]
+        \ },
+        \ 'component_function': {
+        \   'lang': 'LanguageStatus',
+        \   'caps': 'CapsLockStatus',
+        \   'gitbranch': 'fugitive#head'
+        \ },
+        \ }
 
-" ******************** indentLine **************************
+    " ******************** indentLine **************************
 
-let g:indentLine_char = '·'
-let g:indentLine_color_gui = '#888888'
+    let g:indentLine_char = '·'
+    let g:indentLine_color_gui = '#888888'
 
-" ******************** vim-highlightedyank **************************
+    " ******************** vim-highlightedyank **************************
 
-" set highlight for 1 second
-let g:highlightedyank_highlight_duration = 1000
+    " set highlight for 1 second
+    let g:highlightedyank_highlight_duration = 1000
 
-" }}}
-" syntax highlighting {{{
+    " }}}
+    " syntax highlighting {{{
 
-let g:semanticEnableFileTypes = ['c', 'cpp', 'java', 'javascript', 'python', 'vim']
-let g:semanticPersistCacheLocation = $XDG_CACHE_HOME . "/nvim/semantic-highlight-cache"
+    let g:semanticEnableFileTypes = ['c', 'cpp', 'java', 'javascript', 'python', 'vim']
+    let g:semanticPersistCacheLocation = $XDG_CACHE_HOME . "/nvim/semantic-highlight-cache"
 
-" }}}
-" interface enhancement {{{
-
-if executable('rg')
-    set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-endif
-
-" ********************* fzf.vim *****************************
-
-if executable('fzf')
-    nnoremap <silent> <leader>u :Buffers<CR>
-    nnoremap <silent> <leader>f :GFiles<CR>
-    nnoremap <silent> <leader>F :Files<CR>
-
-    nnoremap <silent> <leader>g :Rg<CR>
-    vnoremap <silent> <leader>g <Esc>:execute ':Rg ' . GetVisual()<CR>
-    nnoremap <silent> <leader>G :Lines<CR>
-    vnoremap <silent> <leader>G <Esc>:execute ':Lines ' . GetVisual()<CR>
-    nnoremap <silent> <leader>/ :BLines<CR>
-    vnoremap <silent> <leader>/ <Esc>:execute ':BLines ' . GetVisual()<CR>
-    nnoremap <silent> <leader>a :Tags<CR>
-    vnoremap <silent> <leader>a <Esc>:execute ':Tags ' . GetVisual()<CR>
-
-    nnoremap <silent> <leader>' :Marks<CR>
-
-    nnoremap <silent> <leader>: :Commands<CR>
-
-    nnoremap <silent> <leader>hh :History<CR>
-    nnoremap <silent> <leader>h: :History:<CR>
-    nnoremap <silent> <leader>h/ :History/<CR>
-
-    nnoremap <silent> <leader>H :Helptags<CR>
+    " }}}
+    " interface enhancement {{{
 
     if executable('rg')
-        command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --glob '!.git' ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+        set grepprg=rg\ --vimgrep\ --smart-case\ --follow
     endif
+
+    " ********************* fzf.vim *****************************
+
+    if executable('fzf')
+        nnoremap <silent> <leader>u :Buffers<CR>
+        nnoremap <silent> <leader>f :GFiles<CR>
+        nnoremap <silent> <leader>F :Files<CR>
+
+        nnoremap <silent> <leader>g :Rg<CR>
+        vnoremap <silent> <leader>g <Esc>:execute ':Rg ' . GetVisual()<CR>
+        nnoremap <silent> <leader>G :Lines<CR>
+        vnoremap <silent> <leader>G <Esc>:execute ':Lines ' . GetVisual()<CR>
+        nnoremap <silent> <leader>/ :BLines<CR>
+        vnoremap <silent> <leader>/ <Esc>:execute ':BLines ' . GetVisual()<CR>
+        nnoremap <silent> <leader>a :Tags<CR>
+        vnoremap <silent> <leader>a <Esc>:execute ':Tags ' . GetVisual()<CR>
+
+        nnoremap <silent> <leader>' :Marks<CR>
+
+        nnoremap <silent> <leader>: :Commands<CR>
+
+        nnoremap <silent> <leader>hh :History<CR>
+        nnoremap <silent> <leader>h: :History:<CR>
+        nnoremap <silent> <leader>h/ :History/<CR>
+
+        nnoremap <silent> <leader>H :Helptags<CR>
+
+        if executable('rg')
+            command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --glob '!.git' ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+        endif
+    endif
+
+    " ********************* tagbar ******************************
+
+    nmap <F4> :TagbarToggle<CR>
+
+    " }}}
+    " development {{{
+
+    if executable('cppcheck')
+        " Neomake
+        let g:neomake_c_enabled_makers = ['cppcheck']
+        let g:neomake_c_cppcheck_maker = {
+                    \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c'],
+                    \}
+
+        let g:neomake_cpp_enabled_makers = ['cppcheck']
+        let g:neomake_cpp_cppcheck_maker = {
+                    \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c++'],
+                    \}
+    endif
+
+    " Full config: when writing or reading a buffer, and on changes in insert and
+    " normal mode (after 500ms; no delay when writing).
+    call neomake#configure#automake('nrwi', 500)
+
+    " }}}
+    " other plugins {{{
+
+    for f in glob($XDG_CONFIG_HOME . '/nvim/conf/*.vim', 0, 1)
+        execute 'source' f
+    endfor
+
+    " }}}
+    " plugins override {{{
+
+    " ******************** vim-sensible **************************
+
+    runtime! plugin/sensible.vim
+    set sidescrolloff=0
+
+    " }}}
 endif
-
-" ********************* tagbar ******************************
-
-nmap <F4> :TagbarToggle<CR>
-
-" }}}
-" development {{{
-
-if executable('cppcheck')
-    " Neomake
-    let g:neomake_c_enabled_makers = ['cppcheck']
-    let g:neomake_c_cppcheck_maker = {
-                \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c'],
-                \}
-
-    let g:neomake_cpp_enabled_makers = ['cppcheck']
-    let g:neomake_cpp_cppcheck_maker = {
-                \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c++'],
-                \}
-endif
-
-" Full config: when writing or reading a buffer, and on changes in insert and
-" normal mode (after 500ms; no delay when writing).
-call neomake#configure#automake('nrwi', 500)
-
-" }}}
-" other plugins {{{
-
-for f in glob($XDG_CONFIG_HOME . '/nvim/conf/*.vim', 0, 1)
-    execute 'source' f
-endfor
-
-" }}}
-" plugins override {{{
-
-" ******************** vim-sensible **************************
-
-runtime! plugin/sensible.vim
-set sidescrolloff=0
-
-" }}}
 
 " vim: foldmethod=marker:

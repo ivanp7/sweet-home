@@ -54,6 +54,10 @@ set backupext    =-vimbackup
 set updatecount =100
 set undofile
 
+if empty($XDG_CONFIG_HOME)
+    let $XDG_CONFIG_HOME = $HOME . '/.config'
+endif
+
 if empty($XDG_CACHE_HOME)
     let $XDG_CACHE_HOME = $HOME . '/.cache'
 endif
@@ -64,97 +68,99 @@ set shada+='1000,n$XDG_CACHE_HOME/nvim/info
 " }}}
 " editing of binary files using hexmode {{{
 
-" ex command for toggling hex mode - define mapping if desired
-command -bar Hexmode call ToggleHex()
+if executable('xxd')
+    " ex command for toggling hex mode - define mapping if desired
+    command -bar Hexmode call ToggleHex()
 
-" helper function to toggle hex mode
-function ToggleHex()
-  " hex mode should be considered a read-only operation
-  " save values for modified and read-only for restoration later,
-  " and clear the read-only flag for now
-  let l:modified=&mod
-  let l:oldreadonly=&readonly
-  let &readonly=0
-  let l:oldmodifiable=&modifiable
-  let &modifiable=1
-  if !exists("b:editHex") || !b:editHex
-    " save old options
-    let b:oldft=&ft
-    let b:oldbin=&bin
-    " set new options
-    setlocal binary " make sure it overrides any textwidth, etc.
-    silent :e " this will reload the file without trickeries
-              "(DOS line endings will be shown entirely )
-    let &ft="xxd"
-    " set status
-    let b:editHex=1
-    " switch to hex editor
-    %!xxd
-  else
-    " restore old options
-    let &ft=b:oldft
-    if !b:oldbin
-      setlocal nobinary
+    " helper function to toggle hex mode
+    function ToggleHex()
+        " hex mode should be considered a read-only operation
+        " save values for modified and read-only for restoration later,
+        " and clear the read-only flag for now
+        let l:modified=&mod
+        let l:oldreadonly=&readonly
+        let &readonly=0
+        let l:oldmodifiable=&modifiable
+        let &modifiable=1
+        if !exists("b:editHex") || !b:editHex
+            " save old options
+            let b:oldft=&ft
+            let b:oldbin=&bin
+            " set new options
+            setlocal binary " make sure it overrides any textwidth, etc.
+            silent :e " this will reload the file without trickeries
+            "(DOS line endings will be shown entirely )
+            let &ft="xxd"
+            " set status
+            let b:editHex=1
+            " switch to hex editor
+            %!xxd
+        else
+            " restore old options
+            let &ft=b:oldft
+            if !b:oldbin
+                setlocal nobinary
+            endif
+            " set status
+            let b:editHex=0
+            " return to normal editing
+            %!xxd -r
+        endif
+        " restore values for modified and read only state
+        let &mod=l:modified
+        let &readonly=l:oldreadonly
+        let &modifiable=l:oldmodifiable
+    endfunction
+
+    " autocmds to automatically enter hex mode and handle file writes properly
+    if has("autocmd")
+        " vim -b : edit binary using xxd-format!
+        augroup Binary
+            au!
+
+            " set binary option for all binary files before reading them
+            au BufReadPre *.bin,*.hex setlocal binary
+
+            " if on a fresh read the buffer variable is already set, it's wrong
+            au BufReadPost *
+                        \ if exists('b:editHex') && b:editHex |
+                        \   let b:editHex = 0 |
+                        \ endif
+
+            " convert to hex on startup for binary files automatically
+            au BufReadPost *
+                        \ if &binary | Hexmode | endif
+
+            " When the text is freed, the next time the buffer is made active it will
+            " re-read the text and thus not match the correct mode, we will need to
+            " convert it again if the buffer is again loaded.
+            au BufUnload *
+                        \ if getbufvar(expand("<afile>"), 'editHex') == 1 |
+                        \   call setbufvar(expand("<afile>"), 'editHex', 0) |
+                        \ endif
+
+            " before writing a file when editing in hex mode, convert back to non-hex
+            au BufWritePre *
+                        \ if exists("b:editHex") && b:editHex && &binary |
+                        \  let oldro=&ro | let &ro=0 |
+                        \  let oldma=&ma | let &ma=1 |
+                        \  silent exe "%!xxd -r" |
+                        \  let &ma=oldma | let &ro=oldro |
+                        \  unlet oldma | unlet oldro |
+                        \ endif
+
+            " after writing a binary file, if we're in hex mode, restore hex mode
+            au BufWritePost *
+                        \ if exists("b:editHex") && b:editHex && &binary |
+                        \  let oldro=&ro | let &ro=0 |
+                        \  let oldma=&ma | let &ma=1 |
+                        \  silent exe "%!xxd" |
+                        \  exe "set nomod" |
+                        \  let &ma=oldma | let &ro=oldro |
+                        \  unlet oldma | unlet oldro |
+                        \ endif
+        augroup END
     endif
-    " set status
-    let b:editHex=0
-    " return to normal editing
-    %!xxd -r
-  endif
-  " restore values for modified and read only state
-  let &mod=l:modified
-  let &readonly=l:oldreadonly
-  let &modifiable=l:oldmodifiable
-endfunction
-
-" autocmds to automatically enter hex mode and handle file writes properly
-if has("autocmd")
-  " vim -b : edit binary using xxd-format!
-  augroup Binary
-    au!
-
-    " set binary option for all binary files before reading them
-    au BufReadPre *.bin,*.hex setlocal binary
-
-    " if on a fresh read the buffer variable is already set, it's wrong
-    au BufReadPost *
-          \ if exists('b:editHex') && b:editHex |
-          \   let b:editHex = 0 |
-          \ endif
-
-    " convert to hex on startup for binary files automatically
-    au BufReadPost *
-          \ if &binary | Hexmode | endif
-
-    " When the text is freed, the next time the buffer is made active it will
-    " re-read the text and thus not match the correct mode, we will need to
-    " convert it again if the buffer is again loaded.
-    au BufUnload *
-          \ if getbufvar(expand("<afile>"), 'editHex') == 1 |
-          \   call setbufvar(expand("<afile>"), 'editHex', 0) |
-          \ endif
-
-    " before writing a file when editing in hex mode, convert back to non-hex
-    au BufWritePre *
-          \ if exists("b:editHex") && b:editHex && &binary |
-          \  let oldro=&ro | let &ro=0 |
-          \  let oldma=&ma | let &ma=1 |
-          \  silent exe "%!xxd -r" |
-          \  let &ma=oldma | let &ro=oldro |
-          \  unlet oldma | unlet oldro |
-          \ endif
-
-    " after writing a binary file, if we're in hex mode, restore hex mode
-    au BufWritePost *
-          \ if exists("b:editHex") && b:editHex && &binary |
-          \  let oldro=&ro | let &ro=0 |
-          \  let oldma=&ma | let &ma=1 |
-          \  silent exe "%!xxd" |
-          \  exe "set nomod" |
-          \  let &ma=oldma | let &ro=oldro |
-          \  unlet oldma | unlet oldro |
-          \ endif
-  augroup END
 endif
 
 " }}}
@@ -469,7 +475,10 @@ Plug 'jaxbot/semantic-highlight.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'rbgrouleff/bclose.vim'
 
-Plug 'junegunn/fzf.vim'
+if executable('fzf')
+    Plug 'junegunn/fzf.vim'
+endif
+
 Plug 'majutsushi/tagbar'
 
 " Development
@@ -573,34 +582,40 @@ let g:semanticPersistCacheLocation = $XDG_CACHE_HOME . "/nvim/semantic-highlight
 " }}}
 " interface enhancement {{{
 
-set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+if executable('rg')
+    set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+endif
 
 " ********************* fzf.vim *****************************
 
-nnoremap <silent> <leader>u :Buffers<CR>
-nnoremap <silent> <leader>f :GFiles<CR>
-nnoremap <silent> <leader>F :Files<CR>
+if executable('fzf')
+    nnoremap <silent> <leader>u :Buffers<CR>
+    nnoremap <silent> <leader>f :GFiles<CR>
+    nnoremap <silent> <leader>F :Files<CR>
 
-nnoremap <silent> <leader>g :Rg<CR>
-vnoremap <silent> <leader>g <Esc>:execute ':Rg ' . GetVisual()<CR>
-nnoremap <silent> <leader>G :Lines<CR>
-vnoremap <silent> <leader>G <Esc>:execute ':Lines ' . GetVisual()<CR>
-nnoremap <silent> <leader>/ :BLines<CR>
-vnoremap <silent> <leader>/ <Esc>:execute ':BLines ' . GetVisual()<CR>
-nnoremap <silent> <leader>a :Tags<CR>
-vnoremap <silent> <leader>a <Esc>:execute ':Tags ' . GetVisual()<CR>
+    nnoremap <silent> <leader>g :Rg<CR>
+    vnoremap <silent> <leader>g <Esc>:execute ':Rg ' . GetVisual()<CR>
+    nnoremap <silent> <leader>G :Lines<CR>
+    vnoremap <silent> <leader>G <Esc>:execute ':Lines ' . GetVisual()<CR>
+    nnoremap <silent> <leader>/ :BLines<CR>
+    vnoremap <silent> <leader>/ <Esc>:execute ':BLines ' . GetVisual()<CR>
+    nnoremap <silent> <leader>a :Tags<CR>
+    vnoremap <silent> <leader>a <Esc>:execute ':Tags ' . GetVisual()<CR>
 
-nnoremap <silent> <leader>' :Marks<CR>
+    nnoremap <silent> <leader>' :Marks<CR>
 
-nnoremap <silent> <leader>: :Commands<CR>
+    nnoremap <silent> <leader>: :Commands<CR>
 
-nnoremap <silent> <leader>hh :History<CR>
-nnoremap <silent> <leader>h: :History:<CR>
-nnoremap <silent> <leader>h/ :History/<CR>
+    nnoremap <silent> <leader>hh :History<CR>
+    nnoremap <silent> <leader>h: :History:<CR>
+    nnoremap <silent> <leader>h/ :History/<CR>
 
-nnoremap <silent> <leader>H :Helptags<CR>
+    nnoremap <silent> <leader>H :Helptags<CR>
 
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --glob '!.git' ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+    if executable('rg')
+        command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --glob '!.git' ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+    endif
+endif
 
 " ********************* tagbar ******************************
 
@@ -609,16 +624,18 @@ nmap <F4> :TagbarToggle<CR>
 " }}}
 " development {{{
 
-" Neomake
-let g:neomake_c_enabled_makers = ['cppcheck']
-let g:neomake_c_cppcheck_maker = {
-   \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c'],
-   \}
+if executable('cppcheck')
+    " Neomake
+    let g:neomake_c_enabled_makers = ['cppcheck']
+    let g:neomake_c_cppcheck_maker = {
+                \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c'],
+                \}
 
-let g:neomake_cpp_enabled_makers = ['cppcheck']
-let g:neomake_cpp_cppcheck_maker = {
-   \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c++'],
-   \}
+    let g:neomake_cpp_enabled_makers = ['cppcheck']
+    let g:neomake_cpp_cppcheck_maker = {
+                \ 'args': ['--enable=warning,style,performance,portability,information', '--language=c++'],
+                \}
+endif
 
 " Full config: when writing or reading a buffer, and on changes in insert and
 " normal mode (after 500ms; no delay when writing).

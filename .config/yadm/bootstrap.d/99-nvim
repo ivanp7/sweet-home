@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+# This script must be called last, as it breaks the 'find | while' loop in the bootstrap script!
+
 case "$1" in
     bootstrap)
         echo

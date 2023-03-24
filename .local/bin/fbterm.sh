@@ -2,15 +2,14 @@
 
 [ "$TERM" = "linux" ] || exit
 
-: ${FBTERM_WALLPAPER:="$HOME/wallpapers/fbterm"}
+: ${FRAMEBUFFER:="/dev/fb0"}
 
-if [ -r "$FBTERM_WALLPAPER" ] && file --mime-type "$FBTERM_WALLPAPER" -bLE | grep -q "^image/"
+: ${FBTERM_WALLPAPER:="$HOME/wallpapers/fbterm.fbimg"}
+
+if [ -r "$FBTERM_WALLPAPER" ]
 then
-    echo -ne "\e[?25l" # hide cursor
-    fbv -ciuker "$FBTERM_WALLPAPER" << EOF
-q
-EOF
     export FBTERM_BACKGROUND_IMAGE=1
+    cat "$FBTERM_WALLPAPER"  > "$FRAMEBUFFER"
 fi
 
 exec fbterm -- "${XDG_CONFIG_HOME:-"$HOME/.config"}/fbterm/init.sh" "$1"

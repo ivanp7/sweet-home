@@ -1,4 +1,4 @@
-if [ "$_p_no_session_info" ]
+if [ "${_p_no_session_info:-}" ]
 then
     unset _p_no_session_info
 else

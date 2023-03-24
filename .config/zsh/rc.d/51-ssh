@@ -2,17 +2,17 @@ alias ssh256='TERM=xterm-256color ssh '
 
 ssh_agent_add ()
 {
-    [ -z "$SSH_AUTH_SOCK" ] && eval $(ssh-agent -s) > /dev/null
+    [ -z "${SSH_AUTH_SOCK:-}" ] && eval $(ssh-agent -s) > /dev/null
 }
 
 ssh_agent_kill ()
 {
-    [ -n "$SSH_AUTH_SOCK" ] && eval $(ssh-agent -k) > /dev/null
+    [ -n "${SSH_AUTH_SOCK:-}" ] && eval $(ssh-agent -k) > /dev/null
 }
 
 ssh_add_auth ()
 {
-    [ "$SSH_AUTH_SOCK" ] || return
+    [ "${SSH_AUTH_SOCK:-}" ] || return
 
     local passphrase="$(pass "computers/$HOST/os/linux/$USER/ssh/passphrase" 2> /dev/null)"
     [ "$passphrase" ] || local passphrase="$(pass "vm/$HOST/os/linux/$USER/ssh/passphrase" 2> /dev/null)"

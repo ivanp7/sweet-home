@@ -114,15 +114,15 @@ txclip ()
 # appearance {{{
 # variables {{{
 
-_colors=$(tput colors)
+export _colors=$(tput colors)
 
-_color_reset="\033[0m"
-_color_underline="\033[4m"
-_color_no_underline="\033[24m"
-_color_strike="\033[9m"
-_color_no_strike="\033[29m"
-_color_blink="\033[5m"
-_color_no_blink="\033[25m"
+export _color_reset="\033[0m"
+export _color_underline="\033[4m"
+export _color_no_underline="\033[24m"
+export _color_strike="\033[9m"
+export _color_no_strike="\033[29m"
+export _color_blink="\033[5m"
+export _color_no_blink="\033[25m"
 
 # }}}
 # functions {{{

@@ -1,4 +1,4 @@
-PARENT_SHELL_PID=$PARENT_SHELL_PID_EXPORTED
+PARENT_SHELL_PID=${PARENT_SHELL_PID_EXPORTED:-}
 export PARENT_SHELL_PID_EXPORTED=$$
 
 [ "$(id -u)" -eq 0 ] && export PROMPT_ROOT= || unset PROMPT_ROOT
@@ -39,7 +39,7 @@ _p_prompt_set_env_f ()
         unset PROMPT_EXEC_TIME
     fi
 
-    export PROMPT_STATUS="${SSH_TTY:+"${HOST}·"}$_p_command_number${STATUS:+"·"}$STATUS"
+    export PROMPT_STATUS="${SSH_TTY:+"${HOST}·"}$_p_command_number${STATUS:+"·"}${STATUS:-}"
 
     unset PROMPT_PATH
 }

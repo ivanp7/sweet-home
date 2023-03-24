@@ -1,4 +1,4 @@
-[ "$NON_INTERACTIVE" ] || . "$ZDOTDIR/interactive.zsh"
+[ "${NON_INTERACTIVE:-}" ] || . "$ZDOTDIR/interactive.zsh"
 . "$ZDOTDIR/builtin.zsh"
 . "$ZDOTDIR/prompt.zsh"
 

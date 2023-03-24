@@ -1,2 +1,7 @@
-. "$HOME/.local/user_paths.shell"
+if [ -z "${USERPATH:-}" ]
+then
+    export USERPATH=":$USER_BINARIES_PATH"
+    export PATH="${PATH}${USERPATH}"
+    [ -z "$ROOTPATH" ] || export ROOTPATH="${ROOTPATH}${USERPATH}"
+fi
 

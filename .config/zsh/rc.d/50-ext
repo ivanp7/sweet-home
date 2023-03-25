@@ -1,0 +1,56 @@
+# aliases {{{
+# ls & grep & diff {{{
+
+alias ls='ls --group-directories-first --color=auto'
+alias ll='ls --group-directories-first -ahlF'
+alias la='ls --group-directories-first -A'
+alias l='ls --group-directories-first -CF'
+
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias diff='diff --color=auto'
+
+# }}}
+# nvim {{{
+
+alias vi='nvim'
+
+# }}}
+# }}}
+# functions {{{
+
+tx ()
+{
+    cd
+
+    if [[ -o interactive ]] && [[ ! "$TERM" =~ "screen" ]] && [[ ! "$TERM" =~ "tmux" ]] && [ -z "$TMUX" ]
+    then
+        if [ -z "$1" ]
+        then tmux attach || tmux new-session -x $COLUMNS -y $(($LINES-1)) -s default
+        else tmux attach -t "$1" || tmux new-session -x $COLUMNS -y $(($LINES-1)) -s "$1"
+        fi && _p_mark_shell_inactive
+    fi
+
+    cd -- "$OLDPWD"
+}
+
+txclip ()
+{
+    tmux set-buffer "$(cat)"
+}
+
+fbterm ()
+{
+    fbterm.sh "$1" && _p_mark_shell_inactive
+}
+
+remote ()
+{
+    remote.py "$@" && _p_mark_shell_inactive
+}
+
+# }}}
+
+# vim: ft=zsh: foldmethod=marker:

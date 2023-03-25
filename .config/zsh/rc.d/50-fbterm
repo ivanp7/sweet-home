@@ -1,5 +1,0 @@
-fbterm ()
-{
-    _p_no_session_info=1 zsh -ic "fbterm.sh"
-}
-

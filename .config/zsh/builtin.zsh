@@ -15,25 +15,6 @@ alias 8='cd +8'
 alias 9='cd +9'
 
 # }}}
-# ls & grep & diff {{{
-
-alias ls='ls --group-directories-first --color=auto'
-alias ll='ls --group-directories-first -ahlF'
-alias la='ls --group-directories-first -A'
-alias l='ls --group-directories-first -CF'
-
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
-alias diff='diff --color=auto'
-
-# }}}
-# nvim {{{
-
-alias vi='nvim'
-
-# }}}
 # functions {{{
 
 alias sep='separator'
@@ -87,26 +68,6 @@ his ()
             print $(_color 1)$n:${_color_reset} ${_p_buffers[$n]};
         fi
     done
-}
-
-tx ()
-{
-    cd
-
-    if [[ -o interactive ]] && [[ ! "$TERM" =~ "screen" ]] && [[ ! "$TERM" =~ "tmux" ]] && [ -z "$TMUX" ]
-    then
-        if [ -z "$1" ]
-        then tmux attach || tmux new-session -x $COLUMNS -y $(($LINES-1)) -s default
-        else tmux attach -t "$1" || tmux new-session -x $COLUMNS -y $(($LINES-1)) -s "$1"
-        fi && { echo; separator; session-info.sh; }
-    fi
-
-    cd -- "$OLDPWD"
-}
-
-txclip ()
-{
-    tmux set-buffer "$(cat)"
 }
 
 # }}}

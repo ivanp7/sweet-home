@@ -125,46 +125,49 @@ _p_trap_exit ()
 }
 trap '_p_trap_exit' EXIT
 
-# prompt activation {{{
+# shell activity {{{
 
-_p_prompt_is_active ()
+mkdir -p -- "$TMPDIR_SESSION/active_shells"
+
+_p_is_shell_inactive ()
 {
-    [ -f "$TMPDIR_SESSION/active_prompt/$TTY/$$" ]
+    [ ! -f "$TMPDIR_SESSION/active_shells/$$" ]
 }
 
-_p_activate_prompt ()
+_p_mark_shell_active ()
 {
-    mkdir -p -- "$TMPDIR_SESSION/active_prompt/$TTY"
-    touch -- "$TMPDIR_SESSION/active_prompt/$TTY/$$"
+    touch -- "$TMPDIR_SESSION/active_shells/$$"
 }
 
-_p_deactivate_prompt ()
+_p_mark_shell_inactive ()
 {
-    if [ -f "$TMPDIR_SESSION/active_prompt/$TTY/$$" ]
+    if [ -f "$TMPDIR_SESSION/active_shells/$$" ]
     then
-        rm -- "$TMPDIR_SESSION/active_prompt/$TTY/$$"
-        rmdir --ignore-fail-on-non-empty -p -- "$TMPDIR_SESSION/active_prompt/$TTY"
+        rm -- "$TMPDIR_SESSION/active_shells/$$"
     fi
 }
 
-# initialize prompt status on shell start
-_p_activate_prompt
-trap '_p_deactivate_prompt' EXIT
+# clean up on exit
+trap '_p_mark_shell_inactive' EXIT
 
-if [ -n "$PARENT_SHELL_PID" -a -f "$TMPDIR_SESSION/active_prompt/$TTY/$PARENT_SHELL_PID" ]
+if [ -n "$PARENT_SHELL_PID" -a -f "$TMPDIR_SESSION/active_shells/$PARENT_SHELL_PID" ]
 then
-    rm -- "$TMPDIR_SESSION/active_prompt/$TTY/$PARENT_SHELL_PID"
-    rmdir --ignore-fail-on-non-empty -p -- "$TMPDIR_SESSION/active_prompt/$TTY"
+    rm -- "$TMPDIR_SESSION/active_shells/$PARENT_SHELL_PID"
 fi
 
 # }}}
 
 _p_prompt ()
 {
-    if ! _p_prompt_is_active
-    then
-        _p_activate_prompt
+    PROMPT=""
+    PROMPT2=""
+    RPROMPT=""
 
+    if _p_is_shell_inactive
+    then
+        _p_mark_shell_active
+
+        echo
         separator
         session-info.sh
     fi
@@ -172,9 +175,6 @@ _p_prompt ()
     echo
     prompt.sh
 
-    PROMPT=""
-    PROMPT2=""
-    RPROMPT=""
     _p_set_insert_prompt
 }
 add-zsh-hook precmd _p_prompt

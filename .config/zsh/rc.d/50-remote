@@ -1,9 +1,0 @@
-remote ()
-{
-    remote.py "$@"
-
-    echo
-    separator
-    session-info.sh
-}
-

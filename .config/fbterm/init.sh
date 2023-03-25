@@ -4,8 +4,10 @@ export TERM="fbterm"
 
 cd
 
-if [ -z "$1" ]
-then tmux attach || tmux new-session -s default
-else tmux attach -t "$1" || tmux new-session -s "$1"
-fi
+TMUX_SET_TITLES=$(tmux show -gvq set-titles)
+
+tmux attach ${1:+-t "$1"} \; set -g set-titles off ||
+    tmux new-session ${1:+-s "$1"} \; set -g set-titles off
+
+tmux set -g set-titles ${TMUX_SET_TITLES:-off}
 

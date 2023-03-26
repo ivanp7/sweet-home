@@ -1,4 +1,4 @@
 #!/bin/sh
 
-unclutter
+exec unclutter
 

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-exec xclip -selection clipboard "${1:+"-t $1"}"
+exec xclip -selection clipboard ${1:+-t $1}
 

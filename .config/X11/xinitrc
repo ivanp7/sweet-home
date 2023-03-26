@@ -15,7 +15,7 @@ sysresources="/etc/X11/xinit/.Xresources"
 [ ! -f "$sysresources" ] || xrdb -merge "$sysresources"
 
 userresources="$XDG_CONFIG_HOME/X11/xresources"
-for file in $(find "$userresources" -type f 2> /dev/null)
+for file in $(find "$userresources" -type f,l)
 do
     xrdb -merge "$file"
 done
@@ -24,8 +24,8 @@ done
 [ ! -f "$XDG_CONFIG_HOME/X11/xprofile" ] || . "$XDG_CONFIG_HOME/X11/xprofile"
 
 # configure monitor(s)
-[ -x "$XDG_CONFIG_HOME/xrandr/layout.sh" ] && "$XDG_CONFIG_HOME/xrandr/layout.sh" || xrandr --auto
+[ -x "$XDG_CONFIG_HOME/X11/layout.sh" ] && "$XDG_CONFIG_HOME/X11/layout.sh" || xrandr --auto
 
 # run window manager
-bspwm
+exec bspwm
 

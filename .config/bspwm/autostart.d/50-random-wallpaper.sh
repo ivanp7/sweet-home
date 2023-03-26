@@ -4,7 +4,7 @@ if [ -d "$WALLPAPERS_DIR" ]
 then
     cd -- "$WALLPAPERS_DIR"
 
-    xwallpaper.sh "$(find -L . -path "./.git" -prune -o -type f,l |
+    exec xwallpaper.sh "$(find -L . -path "./.git" -prune -o -type f,l |
         while IFS="
 " read -r file
         do

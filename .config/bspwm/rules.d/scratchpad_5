@@ -10,5 +10,5 @@ else
     export RECTANGLE="$SCRATCHPAD5_RECTANGLE"
 fi
 
-"./scratchpad" "$@"
+exec "./scratchpad" "$@"
 

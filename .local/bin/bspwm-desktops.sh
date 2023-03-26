@@ -23,13 +23,13 @@ N="$(bspc query -D -m $MONITOR | wc -l)"
 add_desktop ()
 {
     [ "$N" -lt 10 ] || return
-    bspc monitor "$MONITOR" -a "$(desktop_name $(($N + 1)))" && N=$((N + 1))
+    bspc monitor $MONITOR -a "$(desktop_name $(($N + 1)))" && N=$((N + 1))
 }
 
 del_desktop ()
 {
     [ "$N" -gt 1 ] || return
-    local desktop_id="$(bspc query -m "$MONITOR" -D | tail -1)"
+    local desktop_id="$(bspc query -m $MONITOR -D | tail -1)"
     bspc desktop "$desktop_id" -r && N=$(($N - 1))
 }
 
@@ -38,7 +38,7 @@ case "$1" in
     inc) add_desktop ;;
     dec) del_desktop ;;
     *)
-        delta=$(("$1" - $N))
+        delta=$(($1 - $N))
         if [ "$delta" -gt 0 ]
         then
             for i in $(seq $delta); do add_desktop || exit 1; done

@@ -14,7 +14,7 @@ then
     SCRIPT="./$CLASS_NAME"
     if [ -x "$SCRIPT" ]
     then
-        "$SCRIPT" "$WINDOW_ID" "$CLASS_NAME" "$INSTANCE_NAME" "$@"
+        exec "$SCRIPT" "$WINDOW_ID" "$CLASS_NAME" "$INSTANCE_NAME" "$@"
     else
         echo "$@"
     fi

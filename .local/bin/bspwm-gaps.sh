@@ -8,8 +8,8 @@ gaps ()
 }
 
 case "$1" in
-    up)   gaps $(($(gaps) + "$STEP")) ;;
-    down) gaps $(($(gaps) - "$STEP")) ;;
+    up)   gaps $(($(gaps) + $STEP)) ;;
+    down) gaps $(($(gaps) - $STEP)) ;;
     "") gaps ;;
     *)  gaps "$1" ;;
 esac

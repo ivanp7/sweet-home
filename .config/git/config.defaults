@@ -1,5 +1,5 @@
 [core]
-    pager = nvimpager
+    pager = less
     editor = nvim
 
 [alias]

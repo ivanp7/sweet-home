@@ -37,18 +37,20 @@ compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 _comp_options+=(globdots) # Include hidden files
 
 # syntax highlighting
-if [ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-    . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # Arch/Artix
-elif [ -f "/usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh" ]; then
-    . /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh # Gentoo
+if [ -f "/usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh" ]
+then   . /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh # Gentoo
+elif [ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]
+then     . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # Arch/Artix
+elif [ -f "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]
+then     . /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # Debian
 fi
 
 # dircolors
 eval $(dircolors)
 
 # "command not found"
-if [ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]; then
-    . /usr/share/doc/pkgfile/command-not-found.zsh
+if [ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]
+then   . /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
 # freeze terminal (disable changes of the settings except screen size)
@@ -166,12 +168,12 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap 
 export FZF_CTRL_T_OPTS="--query '!/ ' --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--query '!/ ' --preview 'tree -C {} | head -200'"
 
-if [ -f "/usr/share/fzf/key-bindings.zsh" ]; then
-    . /usr/share/fzf/key-bindings.zsh
+if [ -f "/usr/share/fzf/key-bindings.zsh" ]
+then   . /usr/share/fzf/key-bindings.zsh
 fi
 
-if [ -f "/usr/share/fzf/completion.zsh" ]; then
-    . /usr/share/fzf/completion.zsh
+if [ -f "/usr/share/fzf/completion.zsh" ]
+then   . /usr/share/fzf/completion.zsh
 fi
 
 bindkey '^y' fzf-cd-widget

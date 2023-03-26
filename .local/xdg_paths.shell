@@ -11,3 +11,4 @@ export XDG_DATA_DIRS XDG_CONFIG_DIRS
 : ${USER_BINARIES_PATH:="$HOME/.local/bin"}
 export USER_BINARIES_PATH
 
+# vim: ft=sh:

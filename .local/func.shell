@@ -1,0 +1,50 @@
+# functionality {{{
+
+bd ()
+{
+    local Num="$1"
+    [ "$Num" ] || { cd ..; return; }
+
+    local Path="./"
+    for i in $(seq $Num)
+    do
+        local Path="$Path/.."
+    done
+
+    cd -- "$Path"
+}
+
+bdrm ()
+{
+    bd "$1"
+    rmdir -p -- "$(realpath -s --relative-to "$PWD" "$OLDPWD")"
+}
+
+mkcd ()
+{
+    local DIRS="$@"
+    mkdir -p -- "$DIRS"
+    cd -- "$DIRS"
+}
+
+pwdir ()
+{
+    /usr/bin/printf "%q\n" "${1:-"$PWD"}"
+}
+
+txclip ()
+{
+    tmux set-buffer "$(cat)"
+}
+
+# }}}
+# appearance {{{
+
+separator ()
+{
+    dd if=/dev/zero bs=1 count=${1:-$(tput cols)} status=none | sed 's/./·/g'
+}
+
+# }}}
+
+# vim: ft=sh: foldmethod=marker:

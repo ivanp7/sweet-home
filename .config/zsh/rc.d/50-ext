@@ -1,26 +1,3 @@
-# aliases {{{
-# ls & grep & diff {{{
-
-alias ls='ls --group-directories-first --color=auto'
-alias ll='ls --group-directories-first -ahlF'
-alias la='ls --group-directories-first -A'
-alias l='ls --group-directories-first -CF'
-
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
-alias diff='diff --color=auto'
-
-# }}}
-# nvim {{{
-
-alias vi='nvim'
-
-# }}}
-# }}}
-# functions {{{
-
 tx ()
 {
     cd
@@ -34,11 +11,6 @@ tx ()
     fi
 
     cd -- "$OLDPWD"
-}
-
-txclip ()
-{
-    tmux set-buffer "$(cat)"
 }
 
 remote ()
@@ -56,6 +28,4 @@ X ()
     X.sh && _p_mark_shell_inactive
 }
 
-# }}}
-
-# vim: ft=zsh: foldmethod=marker:
+# vim: ft=zsh:

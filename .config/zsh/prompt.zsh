@@ -167,12 +167,12 @@ _p_prompt ()
     then
         _p_mark_shell_active
 
-        echo
+        printf "$_p_color_reset$(_color 15)\n"
         separator
         session-info.sh
     fi
 
-    echo
+    printf "$_p_color_reset\n"
     prompt.sh
 
     _p_set_insert_prompt

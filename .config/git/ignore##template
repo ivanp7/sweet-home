@@ -1,0 +1,11 @@
+~*
+*~
+[#]*[#]
+
+*.orig
+*.rej
+
+tags
+*.tags
+Session.vim
+

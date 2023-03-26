@@ -1,0 +1,34 @@
+[core]
+    pager = less
+    editor = nvim
+
+[alias]
+    dif = difftool
+    root = rev-parse --show-toplevel
+    ctags = !.git/hooks/ctags
+
+[diff]
+    tool = lr
+[difftool]
+    prompt = false
+    trustExitCode = true
+[difftool "lr"]
+    cmd = nvim -R -d "$LOCAL" "$REMOTE" -c 'wincmd w'
+[difftool "lmr"]
+    cmd = nvim -R -d "$LOCAL" "$MERGED" "$REMOTE" -c 'wincmd w' -c 'wincmd J' -c 'set noro'
+
+[merge]
+    tool = lmbr
+[mergetool]
+    prompt = false
+    trustExitCode = true
+[mergetool "lmbr"]
+    cmd = nvim -R -d "$LOCAL" "$MERGED" "$BASE" "$REMOTE" -c 'wincmd w' -c 'wincmd J' -c 'set noro'
+
+[pull]
+    rebase = false
+
+[init]
+    defaultBranch = master
+    templatedir = ~/.config/git/template
+

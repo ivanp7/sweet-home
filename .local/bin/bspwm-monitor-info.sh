@@ -15,6 +15,10 @@ case "$INFO_TYPE" in
     slop) echo "${MONITOR_WIDTH}x${MONITOR_HEIGHT}+${MONITOR_X}+${MONITOR_Y}" ;;
     name) echo "$MONITOR_NAME" ;;
     area) echo "$MONITOR_WIDTH $MONITOR_HEIGHT $MONITOR_X $MONITOR_Y" ;;
+    width)  echo "$MONITOR_WIDTH" ;;
+    height) echo "$MONITOR_HEIGHT" ;;
+    x) echo "$MONITOR_X" ;;
+    y) echo "$MONITOR_Y" ;;
     *) echo "$MONITOR_WIDTH $MONITOR_HEIGHT $MONITOR_X $MONITOR_Y $MONITOR_NAME" ;;
 esac
 

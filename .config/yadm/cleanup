@@ -3,7 +3,7 @@ set -u
 
 . "$HOME/.local/env.shell"
 
-echo "1. Removing special bootstrapped files..."
+echo "1. Removing special files created during bootstrap..."
 echo
 
 cd -- "$(dirname -- "$0")"
@@ -26,7 +26,7 @@ then
 fi
 
 echo
-echo "2. Removing ordinary repository files..."
+echo "2. Removing tracked files & files generated from templates..."
 echo
 
 cd -- "$HOME"
@@ -36,6 +36,14 @@ yadm ls-files | while IFS="
 do
     rm -v -- "$file"
     rmdir -p --ignore-fail-on-non-empty -- "$(dirname -- "$file")"
+
+    # remove generated file
+    FILE="$(basename -- "$file")"
+    if echo "$FILE" | grep -q '^.*[^#]##[^#]*$'
+    then
+        FILE="$(dirname -- "$file")/$(echo "$FILE" | sed 's/##.*//')"
+        [ ! -f "$FILE" ] || rm -v -- "$FILE"
+    fi
 done
 
 echo

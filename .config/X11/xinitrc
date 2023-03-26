@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# load config scripts
+if [ -d /etc/X11/xinit/xinitrc.d ]
+then
+    for f in /etc/X11/xinit/xinitrc.d/?*.sh
+    do
+        [ ! -x "$f" ] || . "$f"
+    done
+    unset f
+fi
+
+# load resources
+sysresources="/etc/X11/xinit/.Xresources"
+[ ! -f "$sysresources" ] || xrdb -merge "$sysresources"
+
+userresources="$XDG_CONFIG_HOME/X11/xresources"
+for file in $(find "$userresources" -type f 2> /dev/null)
+do
+    xrdb -merge "$file"
+done
+
+# execute profile
+[ ! -f "$XDG_CONFIG_HOME/X11/xprofile" ] || . "$XDG_CONFIG_HOME/X11/xprofile"
+
+# configure monitor(s)
+[ -x "$XDG_CONFIG_HOME/xrandr/layout.sh" ] && "$XDG_CONFIG_HOME/xrandr/layout.sh" || xrandr --auto
+
+# run window manager
+bspwm
+

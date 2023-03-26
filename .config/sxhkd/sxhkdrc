@@ -1,0 +1,250 @@
+# general hotkeys {{{
+
+# quit/restart bspwm
+super + alt + {q,r}
+    bspc {quit,wm -r}
+super + alt + {Cyrillic_shorti,Cyrillic_ka}
+    bspc {quit,wm -r}
+
+# make sxhkd reload its configuration files:
+super + Escape
+    pkill -USR1 -x sxhkd
+
+# close and kill
+super + {_,shift + }w
+    bspc node -{c,k}
+super + {_,shift + }Cyrillic_tse
+    bspc node -{c,k}
+
+# XKill
+super + x
+    xkillthis.sh
+
+# alternate between the tiled and monocle layout
+super + m
+    bspc desktop -l next
+super + Cyrillic_softsign
+    bspc desktop -l next
+
+# }}}
+# scratchpad {{{
+
+super + grave
+    bspwm-scratchpad.sh scratchpad_0
+super + F1
+    bspwm-scratchpad.sh scratchpad_1
+super + F2
+    bspwm-scratchpad.sh scratchpad_2
+super + F3
+    bspwm-scratchpad.sh scratchpad_3
+super + F4
+    bspwm-scratchpad.sh scratchpad_4
+super + F5
+    bspwm-scratchpad.sh scratchpad_5
+super + F6
+    bspwm-scratchpad.sh scratchpad_6
+super + F7
+    bspwm-scratchpad.sh scratchpad_7
+super + F8
+    bspwm-scratchpad.sh scratchpad_8
+super + F9
+    bspwm-scratchpad.sh scratchpad_9
+super + F10
+    bspwm-scratchpad.sh scratchpad_10
+super + F11
+    bspwm-scratchpad.sh scratchpad_11
+super + F12
+    bspwm-scratchpad.sh scratchpad_12
+
+super + backslash
+    bspwm-scratchpad.sh scratchpad_0 hide; \
+    bspwm-scratchpad.sh scratchpad_1 hide; \
+    bspwm-scratchpad.sh scratchpad_2 hide; \
+    bspwm-scratchpad.sh scratchpad_3 hide; \
+    bspwm-scratchpad.sh scratchpad_4 hide; \
+    bspwm-scratchpad.sh scratchpad_5 hide; \
+    bspwm-scratchpad.sh scratchpad_6 hide; \
+    bspwm-scratchpad.sh scratchpad_7 hide; \
+    bspwm-scratchpad.sh scratchpad_8 hide; \
+    bspwm-scratchpad.sh scratchpad_9 hide; \
+    bspwm-scratchpad.sh scratchpad_10 hide; \
+    bspwm-scratchpad.sh scratchpad_11 hide; \
+    bspwm-scratchpad.sh scratchpad_12 hide
+
+# }}}
+# state/flags {{{
+
+# set the window state
+super + {t,shift + t,s,f}
+    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+super + {Cyrillic_ie,shift + Cyrillic_ie,Cyrillic_yeru,Cyrillic_a}
+    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+    bspc node -g {marked,locked,sticky,private}
+super + ctrl + {Cyrillic_softsign,Cyrillic_che,Cyrillic_en,Cyrillic_ya}
+    bspc node -g {marked,locked,sticky,private}
+
+# hide window
+super + ctrl + n
+    bspwm-window-hide.sh
+super + ctrl + Cyrillic_te
+    bspwm-window-hide.sh
+
+# unhide window
+super + shift + n
+    bspwm-window-unhide.sh
+super + shift + Cyrillic_te
+    bspwm-window-unhide.sh
+
+# focus window
+super + n
+    bspwm-window-focus.sh
+super + Cyrillic_te
+    bspwm-window-focus.sh
+
+# }}}
+# focus/swap {{{
+
+# send the newest marked node to the newest preselected node
+super + y
+    bspc node newest.marked.local -n newest.!automatic.local
+super + Cyrillic_en
+    bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the newest marked node
+super + g
+    bspc node -s newest.marked.local; \
+    bspc node -f newest.marked.local; \
+    bspc node -g marked
+super + Cyrillic_pe
+    bspc node -s newest.marked.local; \
+    bspc node -f newest.marked.local; \
+    bspc node -g marked
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+    bspc node -{f,s} {west,south,north,east}
+super + {_,shift + }{Cyrillic_er,Cyrillic_o,Cyrillic_el,Cyrillic_de}
+    bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+    bspc node -f @{parent,brother,first,second}
+super + {Cyrillic_ze,Cyrillic_i,Cyrillic_be,Cyrillic_yu}
+    bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous node in the current desktop
+super + {_,shift + }c
+    bspc node -f {next,prev}.local.!hidden.window
+super + {_,shift + }Cyrillic_es
+    bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+    bspc desktop -f {prev,next}.local
+super + {Cyrillic_ha,Cyrillic_hardsign}
+    bspc desktop -f {prev,next}.local
+
+# change the number of desktops
+super + alt + {1-9,0}
+    bspwm-desktops.sh {1-9,10}
+super + alt + bracket{left,right}
+    bspwm-desktops.sh {dec,inc}
+super + alt + {Cyrillic_ha,Cyrillic_hardsign}
+    bspwm-desktops.sh {dec,inc}
+
+# rename current desktop
+super + r
+    bspwm-desktop-rename.sh
+
+# focus the last node/desktop
+super + {ctrl + ,_}Tab
+    bspc {node,desktop} -f last
+super + {Cyrillic_io,Tab}
+    bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+    bspc wm -h off; \
+    bspc node {older,newer} -f; \
+    bspc wm -h on
+super + {Cyrillic_shcha,Cyrillic_sha}
+    bspc wm -h off; \
+    bspc node {older,newer} -f; \
+    bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+    bspc {desktop -f,node -d} 'focused:^{1-9,10}'
+
+# }}}
+# flip/rotate {{{
+
+super + {underscore,bar}
+    bspc node -F {horizontal,vertical}
+
+super + {less,greater}
+    bspc node -R {90,270}
+super + shift + {Cyrillic_be,Cyrillic_yu}
+    bspc node -R {90,270}
+
+# }}}
+# preselect {{{
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+super + ctrl + {Cyrillic_er,Cyrillic_o,Cyrillic_el,Cyrillic_de}
+    bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+    bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + BackSpace
+    bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + BackSpace
+    bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+# }}}
+# move/resize {{{
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+super + alt + {Cyrillic_er,Cyrillic_o,Cyrillic_el,Cyrillic_de}
+    bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+    bspc node -z {left 20 0,bottom 0 -20,top 0 20,right -20 0}
+super + alt + shift + {Cyrillic_er,Cyrillic_o,Cyrillic_el,Cyrillic_de}
+    bspc node -z {left 20 0,bottom 0 -20,top 0 20,right -20 0}
+
+# move a floating window
+super + shift + {Left,Down,Up,Right}
+    bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# make split ratios equal
+super + ctrl + equal
+    bspc node @/ --equalize
+
+# make split ratios balanced
+super + ctrl + minus
+    bspc node @/ --balance
+
+# }}}
+# miscellaneous {{{
+
+# gap control
+super + {KP_Add,KP_Subtract}
+    bspwm-gaps.sh {up,down}
+
+# }}}
+
+# vim: foldmethod=marker:

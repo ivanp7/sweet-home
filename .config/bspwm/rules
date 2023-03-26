@@ -1,0 +1,24 @@
+#!/bin/sh
+
+. "$HOME/.local/env.shell"
+
+WINDOW_ID="$1"
+CLASS_NAME="$2"
+INSTANCE_NAME="$3"
+shift 3
+
+if [ -d "$XDG_CONFIG_HOME/bspwm/rules.d" ]
+then
+    cd -- "$XDG_CONFIG_HOME/bspwm/rules.d"
+
+    SCRIPT="./$CLASS_NAME"
+    if [ -x "$SCRIPT" ]
+    then
+        "$SCRIPT" "$WINDOW_ID" "$CLASS_NAME" "$INSTANCE_NAME" "$@"
+    else
+        echo "$@"
+    fi
+else
+    echo "$@"
+fi
+

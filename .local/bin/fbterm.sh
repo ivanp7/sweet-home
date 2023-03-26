@@ -2,9 +2,10 @@
 
 [ "$TERM" = "linux" ] || exit
 
-: ${FRAMEBUFFER:="/dev/fb0"}
+: ${XDG_CONFIG_HOME:-"$HOME/.config"}
 
-: ${FBTERM_WALLPAPER:="$HOME/wallpapers/fbterm.fbimg"}
+: ${FRAMEBUFFER:="/dev/fb0"}
+: ${FBTERM_WALLPAPER:="$XDG_CONFIG_HOME/fbterm/wallpaper.fbimg"}
 
 if [ -r "$FBTERM_WALLPAPER" ]
 then
@@ -12,5 +13,5 @@ then
     cat "$FBTERM_WALLPAPER"  > "$FRAMEBUFFER"
 fi
 
-exec fbterm -- "${XDG_CONFIG_HOME:-"$HOME/.config"}/fbterm/init.sh" "$1"
+exec fbterm -- "$XDG_CONFIG_HOME/fbterm/init.sh" "$1"
 

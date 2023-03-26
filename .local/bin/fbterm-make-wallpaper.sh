@@ -1,7 +1,7 @@
 #!/bin/sh
 
 INPUT="$1"
-OUTPUT="$2"
+OUTPUT="${2:-"${XDG_CONFIG_HOME:-"$HOME/.config"}/fbterm/wallpaper.fbimg"}"
 
 : ${FRAMEBUFFER:="/dev/fb0"}
 : ${FBI_DELAY:=1}

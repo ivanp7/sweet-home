@@ -160,14 +160,6 @@ bindkey '^g' rep
 # }}}
 # fzf {{{
 
-export FZF_DEFAULT_COMMAND="find . -path './.git' -prune -o -printf '%P\\n'"
-export FZF_DEFAULT_OPTS="--bind=ctrl-j:accept,ctrl-k:kill-line -m"
-
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-# Using highlight (http://www.andre-simon.de/doku/highlight/en/highlight.html)
-export FZF_CTRL_T_OPTS="--query '!/ ' --preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-export FZF_ALT_C_OPTS="--query '!/ ' --preview 'tree -C {} | head -200'"
-
 if [ -f "/usr/share/fzf/key-bindings.zsh" ]
 then   . /usr/share/fzf/key-bindings.zsh
 fi

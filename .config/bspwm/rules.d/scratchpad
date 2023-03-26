@@ -7,14 +7,6 @@ shift 3
 
 if [ -z "${RECTANGLE:-}" ]
 then
-    MONITOR_AREA="$(bspwm-monitor-info.sh area)"
-    MONITOR_WIDTH="${MONITOR_AREA%% *}"
-    MONITOR_AREA="${MONITOR_AREA#* }"
-    MONITOR_HEIGHT="${MONITOR_AREA%% *}"
-    MONITOR_AREA="${MONITOR_AREA#* }"
-    MONITOR_X="${MONITOR_AREA%% *}"
-    MONITOR_Y="${MONITOR_AREA#* }"
-
     : ${WIDTH:=$(($MONITOR_WIDTH * 3 / 4))}
     : ${HEIGHT:=$(($MONITOR_HEIGHT * 3 / 4))}
 

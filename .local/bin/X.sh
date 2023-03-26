@@ -4,6 +4,6 @@
 
 cd
 
-# start X server
-exec startx "$XINITRC" -- "$XSERVERRC"
+# execute X server
+exec startx "$XINITRC" -- "$XSERVERRC" 2> /dev/null
 

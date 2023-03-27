@@ -32,11 +32,6 @@ pwdir ()
     /usr/bin/printf "%q\n" "${1:-"$PWD"}"
 }
 
-txclip ()
-{
-    tmux set-buffer "$(cat)"
-}
-
 # }}}
 # appearance {{{
 

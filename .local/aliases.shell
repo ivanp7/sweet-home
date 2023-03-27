@@ -27,17 +27,13 @@ alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
 
 # }}}
-# nvim {{{
+# miscellaneous {{{
 
 alias vi='nvim'
 
-# }}}
-# ssh {{{
-
 alias ssh256='TERM=xterm-256color ssh '
 
-# }}}
-# functions {{{
+alias X='X.sh'
 
 alias sep='separator'
 

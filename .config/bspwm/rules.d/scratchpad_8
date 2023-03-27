@@ -1,13 +1,14 @@
 #!/bin/sh
 
-if [ -z "$SCRATCHPAD8_RECTANGLE" ]
+export RECTANGLE="${SCRATCHPAD8_RECTANGLE:-}"
+if [ -z "$RECTANGLE" ]
 then
-    [ "$SCRATCHPAD8_WIDTH" ] && export WIDTH=$SCRATCHPAD8_WIDTH || export WIDTH=
-    [ "$SCRATCHPAD8_HEIGHT" ] && export HEIGHT=$SCRATCHPAD8_HEIGHT || export HEIGHT=
-    [ "$SCRATCHPAD8_X" ] && export X=$SCRATCHPAD8_X || export X=
-    [ "$SCRATCHPAD8_Y" ] && export Y=$SCRATCHPAD8_Y || export Y=
+    export WIDTH="${SCRATCHPAD8_WIDTH:-}"
+    export HEIGHT="${SCRATCHPAD8_HEIGHT:-}"
+    export X="${SCRATCHPAD8_X:-}"
+    export Y="${SCRATCHPAD8_Y:-}"
 else
-    export RECTANGLE="$SCRATCHPAD8_RECTANGLE"
+    unset WIDTH HEIGHT X Y
 fi
 
 exec "./scratchpad" "$@"

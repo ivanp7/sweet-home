@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sleep 2
+sleep 1
 
 if [ ! -d "$XDG_CONFIG_HOME/sxhkd/conf.d" ]
 then

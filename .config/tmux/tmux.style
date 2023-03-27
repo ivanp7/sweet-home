@@ -9,7 +9,7 @@ set -g status-left "#[bold]#{?client_prefix,#[fg=colour231#,bg=colour31],#[fg=co
 set -g status-left-length "200"
 set -g status-left-style "none"
 
-set -g status-right "#[fg=colour236,bg=colour234,nobold,nounderscore,noitalics]#[fg=colour252,bg=colour236] #{online_status}#[fg=colour252] #(\"$XDG_CONFIG_HOME/tmux/battery-info.sh\") %Y-%b-%d %a  %H:%M:%S #[fg=colour252,bg=colour236,nobold,nounderscore,noitalics]#[fg=colour232,bg=colour252,bold] #h#[fg=colour252,bg=colour232]█"
+set -g status-right "#[fg=colour252] #(\"$XDG_CONFIG_HOME/tmux/battery-info.sh\") %Y-%b-%d %a  %H:%M:%S #[fg=colour252,bg=colour236,nobold,nounderscore,noitalics]#[fg=colour232,bg=colour252,bold] #h#[fg=colour252,bg=colour232]█"
 set -g status-right-length "200"
 set -g status-right-style "none"
 

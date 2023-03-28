@@ -2,11 +2,12 @@
 
 sleep 1
 
-if [ ! -d "$XDG_CONFIG_HOME/sxhkd/conf.d" ]
+SXHKD_DIR="${XDG_CONFIG_HOME:-"$HOME/.config"}/sxhkd"
+
+if [ ! -d "$SXHKD_DIR/conf.d" ]
 then
     exec sxhkd
 else
-    find "${XDG_CONFIG_HOME:-"$HOME/.config"}/sxhkd/conf.d" -type f,l |
-        sort | exec xargs -rd'\n' sxhkd
+    find "$SXHKD_DIR/conf.d" -type f,l | sort | xargs -rd'\n' "$SXHKD_DIR/exec.sh"
 fi
 

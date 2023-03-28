@@ -1,7 +1,2 @@
-if [ -z "${USERPATH:-}" ]
-then
-    export USERPATH=":$USER_BINARIES_PATH"
-    export PATH="${PATH}${USERPATH}"
-    [ -z "$ROOTPATH" ] || export ROOTPATH="${ROOTPATH}${USERPATH}"
-fi
+. "$HOME/.local/env.path.shell" # PATH have been reset, restore it
 

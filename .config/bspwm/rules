@@ -2,6 +2,15 @@
 
 . "$HOME/.local/env.shell"
 
+MONITOR_AREA="$(bspwm-monitor-info.sh area primary)"
+export MONITOR_WIDTH="${MONITOR_AREA%% *}"
+MONITOR_AREA="${MONITOR_AREA#* }"
+export MONITOR_HEIGHT="${MONITOR_AREA%% *}"
+MONITOR_AREA="${MONITOR_AREA#* }"
+export MONITOR_X="${MONITOR_AREA%% *}"
+export MONITOR_Y="${MONITOR_AREA#* }"
+unset MONITOR_AREA
+
 WINDOW_ID="$1"
 CLASS_NAME="$2"
 INSTANCE_NAME="$3"

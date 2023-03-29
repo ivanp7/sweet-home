@@ -1,0 +1,12 @@
+#!/bin/sh
+
+case "$1" in
+    "C-54") # C-c
+        xclip -r -in -selection clipboard
+        ;;
+
+    "25") # w
+        exec xwallpaper.sh "$(shuf -n 1)"
+        ;;
+esac
+

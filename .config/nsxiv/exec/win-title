@@ -1,0 +1,6 @@
+#!/bin/sh
+
+exec 2> /dev/null
+
+printf "nsxiv ($2/$3) - $(basename -- "$1")"
+

@@ -1,0 +1,17 @@
+if [ -z "${GEOMETRY:-}" ]
+then
+    : ${WIDTH:=$(($MONITOR_WIDTH * ${WIDTH_RATIO:- 3/4}))}
+    [ "$WIDTH" -gt 0 ] || WIDTH=$(($MONITOR_WIDTH + $WIDTH))
+
+    : ${HEIGHT:=$(($MONITOR_HEIGHT * ${HEIGHT_RATIO:- 3/4}))}
+    [ "$HEIGHT" -gt 0 ] || HEIGHT=$(($MONITOR_HEIGHT + $HEIGHT))
+
+    : ${X:=$(($MONITOR_X + ($MONITOR_WIDTH - $WIDTH) / 2))}
+    [ "$X" -lt 0 ] && X=$(($MONITOR_X + $MONITOR_WIDTH - $WIDTH + $X))
+
+    : ${Y:=$(($MONITOR_Y + ($MONITOR_HEIGHT - $HEIGHT) / 2))}
+    [ "$Y" -lt 0 ] && Y=$(($MONITOR_Y + $MONITOR_HEIGHT - $HEIGHT + $Y))
+
+    GEOMETRY="${WIDTH}x${HEIGHT}+${X}+${Y}"
+fi
+

@@ -1,15 +1,13 @@
 #!/bin/sh
 
-export RECTANGLE="${SCRATCHPAD11_RECTANGLE:-}"
-if [ -z "$RECTANGLE" ]
-then
-    export WIDTH="${SCRATCHPAD11_WIDTH:-}"
-    export HEIGHT="${SCRATCHPAD11_HEIGHT:-}"
-    export X="${SCRATCHPAD11_X:-}"
-    export Y="${SCRATCHPAD11_Y:-}"
-else
-    unset WIDTH HEIGHT X Y
-fi
+GEOMETRY="${SCRATCHPAD11_GEOMETRY:-}"
+WIDTH_RATIO="${SCRATCHPAD11_WIDTH_RATIO:-}"
+HEIGHT_RATIO="${SCRATCHPAD11_HEIGHT_RATIO:-}"
+WIDTH="${SCRATCHPAD11_WIDTH:-}"
+HEIGHT="${SCRATCHPAD11_HEIGHT:-}"
+X="${SCRATCHPAD11_X:-}"
+Y="${SCRATCHPAD11_Y:-}"
 
-exec "./scratchpad" "$@"
+. ../rule_geometry
+echo "state=floating sticky=on locked=on rectangle=$GEOMETRY"
 

@@ -72,6 +72,7 @@ expect "Identity added: $home/.ssh/id_rsa ($home/.ssh/id_rsa)"
 separator ()
 {
     dd if=/dev/zero bs=1 count=${1:-$(tput cols)} status=none | sed 's/./·/g'
+    echo
 }
 
 # }}}

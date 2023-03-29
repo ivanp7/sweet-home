@@ -9,4 +9,5 @@ then
     exec sxhkd
 else
     find "$SXHKD_DIR/conf.d" -type f,l | sort | xargs -rd'\n' "$SXHKD_DIR/exec.sh"
+fi
 

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-xclip -o -selection primary | xclip -i -selection clipboard
+xclip -o -selection primary | xclip -selection clipboard
 

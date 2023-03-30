@@ -1,4 +1,4 @@
-# dmenu {{{
+# dmenu_run {{{
 
 # program launcher
 super + Return
@@ -16,33 +16,6 @@ super + ctrl + Return
 
 super + ctrl + grave
     scratchpad-st.sh
-
-# }}}
-# clipboard {{{
-
-# copy primary selection to clipboard
-super + alt + c
-    xclipp.sh
-
-# tmux clipboard manager
-super + ctrl + c
-    xclip-tmux.sh
-super + ctrl + Cyrillic_es
-    xclip-tmux.sh
-
-super + ctrl + v
-    tmux-xclip.sh
-super + ctrl + Cyrillic_ve
-    tmux-xclip.sh
-
-# }}}
-# hardware control {{{
-
-# monitor brightness control
-{XF86MonBrightnessUp,XF86MonBrightnessDown}
-    xbacklight.sh {up,down}
-ctrl + {XF86MonBrightnessUp,XF86MonBrightnessDown}
-    xbacklight.sh {100,0}
 
 # }}}
 

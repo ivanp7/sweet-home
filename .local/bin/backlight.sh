@@ -13,6 +13,7 @@ echo "$BRIGHTNESS/$MAX_BRIGHTNESS"
 if [ "${1:-}" ]
 then
     case "$1" in
+        max) BRIGHTNESS=$MAX_BRIGHTNESS ;;
         up)   BRIGHTNESS=$(($BRIGHTNESS + $STEP)) ;;
         down) BRIGHTNESS=$(($BRIGHTNESS - $STEP)) ;;
         +*) BRIGHTNESS=$(($BRIGHTNESS $1)) ;;

@@ -2,7 +2,7 @@
 
 . "$HOME/.local/env.shell"
 
-MONITOR_AREA="$(bspwm-monitor-info.sh area primary)"
+MONITOR_AREA="$(bspwm-monitor-info.sh area focused)"
 export MONITOR_WIDTH="${MONITOR_AREA%% *}"
 MONITOR_AREA="${MONITOR_AREA#* }"
 export MONITOR_HEIGHT="${MONITOR_AREA%% *}"

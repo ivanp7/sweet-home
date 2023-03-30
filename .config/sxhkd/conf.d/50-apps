@@ -1,3 +1,49 @@
+# dmenu {{{
+
+# program launcher
+super + Return
+    xkblayout.sh; \
+    dmenu_run
+
+# }}}
+# st {{{
+
 super + ctrl + shift + Return
     st.sh
 
+super + ctrl + Return
+    tabbed-st.sh
+
+super + ctrl + grave
+    scratchpad-st.sh
+
+# }}}
+# clipboard {{{
+
+# copy primary selection to clipboard
+super + alt + c
+    xclipp.sh
+
+# tmux clipboard manager
+super + ctrl + c
+    xclip-tmux.sh
+super + ctrl + Cyrillic_es
+    xclip-tmux.sh
+
+super + ctrl + v
+    tmux-xclip.sh
+super + ctrl + Cyrillic_ve
+    tmux-xclip.sh
+
+# }}}
+# hardware control {{{
+
+# monitor brightness control
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+    xbacklight.sh {up,down}
+ctrl + {XF86MonBrightnessUp,XF86MonBrightnessDown}
+    xbacklight.sh {100,0}
+
+# }}}
+
+# vim: foldmethod=marker:

@@ -1,0 +1,14 @@
+# man {{{
+
+super + a
+    man-dmenu.sh
+
+# }}}
+# pass {{{
+
+super + Menu
+    pass-dmenu.sh
+
+# }}}
+
+# vim: foldmethod=marker:

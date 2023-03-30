@@ -106,6 +106,8 @@ bindkey '\C-b' vi-backward-char
 bindkey '\C-f' vi-forward-char
 bindkey '\C-a' vi-beginning-of-line
 bindkey '\C-e' vi-end-of-line
+bindkey '\C-p' up-line-or-beginning-search
+bindkey '\C-n' down-line-or-beginning-search
 
 bindkey '^[^M' self-insert-unmeta
 

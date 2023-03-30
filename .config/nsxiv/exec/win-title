@@ -2,5 +2,5 @@
 
 exec 2> /dev/null
 
-printf "nsxiv ($2/$3) - $(basename -- "$1")"
+printf "$(basename -- "$1") - nsxiv"
 

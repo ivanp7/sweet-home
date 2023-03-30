@@ -1,5 +1,7 @@
 #!/bin/sh
 
+exec 2> /dev/null
+
 case "$1" in
     "C-54") # C-c
         xclip -r -in -selection clipboard

@@ -17,6 +17,13 @@ super + Pause
     slock.sh
 
 # }}}
+# screen capture {{{
+
+# make screenshot
+{_,ctrl + }{_,shift + } Print
+    xscreenshot.sh { ,-su} { | xclip.sh image/png, }
+
+# }}}
 # X clipboard {{{
 
 # copy primary selection to clipboard

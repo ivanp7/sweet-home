@@ -10,6 +10,13 @@ super + Menu
     pass-dmenu.sh
 
 # }}}
+# slock {{{
+
+# lock screen
+super + Pause
+    slock.sh
+
+# }}}
 # X clipboard {{{
 
 # copy primary selection to clipboard

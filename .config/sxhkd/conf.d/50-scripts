@@ -71,6 +71,12 @@ super + ctrl + Cyrillic_ve
 # }}}
 # hardware control {{{
 
+# volume control
+{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+    volume.sh {up,down,toggle}
+ctrl + {XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+    volume.sh {next,prev, }
+
 # monitor brightness control
 {XF86MonBrightnessUp,XF86MonBrightnessDown}
     backlight.sh {up,down}

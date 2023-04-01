@@ -15,11 +15,13 @@ mkdir -p -- "$TEMP_DIRECTORY"
 
 maim "$@" -- "$TEMP_DIRECTORY/$FILENAME"
 
-DMENU_PROMPT="Screenshot directory"
+DMENU_PROMPT="Save screenshot to"
 : ${DMENU_LINES:=10}
 : ${DMENU_COLUMNS:=4}
 
-HISTORY_FILE="$XDG_CACHE_HOME/screenshot-history"
+: ${NOTIFY_TIME:=5000}
+
+HISTORY_FILE="$XDG_CACHE_HOME/xscreenshot-history"
 touch -- "$HISTORY_FILE"
 
 INPUT=$(tac -- "$HISTORY_FILE" | dmenu -p "$DMENU_PROMPT" -l "$DMENU_LINES" -g "$DMENU_COLUMNS" | head -1)
@@ -31,5 +33,5 @@ fi
 
 { grep -Fxv "$INPUT" -- "$HISTORY_FILE"; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 
-echo "$INPUT/$FILENAME"
+notify-send -t "$NOTIFY_TIME" -u normal "xscreenshot.sh" "$INPUT/$FILENAME"
 

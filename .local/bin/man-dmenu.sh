@@ -10,7 +10,7 @@ touch -- "$HISTORY_FILE"
 INPUT=$(tac -- "$HISTORY_FILE" | uniq | dmenu.sh -p "$DMENU_PROMPT" -l "$DMENU_LINES" -g "$DMENU_COLUMNS" | head -1)
 [ "$INPUT" ] || exit
 
-SCRATCHPAD="${SCRATCHPAD_MAN:-0}" scratchpad-st.sh -t "$INPUT" -e man $INPUT
+SCRATCHPAD="${SCRATCHPAD_MAN:-0}" scratchpad-st.sh -t "$INPUT - man" -e man $INPUT
 
 { grep -Fxv "$INPUT" -- "$HISTORY_FILE"; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 

@@ -1,16 +1,19 @@
-# man {{{
-
-super + a
-    man-dmenu.sh
-
-# }}}
-# pass {{{
+# applications {{{
 
 super + Menu
     pass-dmenu.sh
 
+super + a
+    man-dmenu.sh
+
+super + equal
+    calc-dmenu.sh
+
+super + d
+    dict-dmenu.sh
+
 # }}}
-# slock {{{
+# screen lock {{{
 
 # lock screen
 super + Pause
@@ -22,6 +25,10 @@ super + Pause
 # make screenshot
 {_,ctrl + }{_,shift + } Print
     xscreenshot.sh { ,-su} { | xclip.sh image/png, }
+
+# make screencast
+super + {_,shift + }{_,ctrl + } Print
+    xscreencapture.sh {screen,screen/mic} {"#","+"}
 
 # }}}
 # X clipboard {{{

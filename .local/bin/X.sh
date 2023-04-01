@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. "$HOME/.local/env.shell"
-
 cd
 
 # execute X server

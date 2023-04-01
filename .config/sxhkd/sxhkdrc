@@ -8,7 +8,8 @@ super + alt + {Cyrillic_shorti,Cyrillic_ka}
 
 # make sxhkd reload its configuration files:
 super + Escape
-    pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd; \
+    notify-send -t 1000 -u normal 'sxhkd' 'Reloaded!'
 
 # close and kill
 super + {_,shift + }w

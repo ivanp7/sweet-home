@@ -29,13 +29,12 @@ alias diff='diff --color=auto'
 # }}}
 # miscellaneous {{{
 
-alias vi='nvim'
-
-alias ssh256='TERM=xterm-256color ssh '
-
-alias X='X.sh'
-
+alias cal='cal -3mw --color=auto'
 alias sep='separator'
+alias ssh256='TERM=xterm-256color ssh '
+alias vi='nvim'
+alias w3m='w3m.sh'
+alias X='X.sh'
 
 # }}}
 

@@ -7,8 +7,13 @@ PID_FILE="$TMPDIR_SESSION/xscreencapture.pid"
 
 if [ -f "$PID_FILE" ]
 then
-    kill -INT "$(head -1 -- "$PID_FILE")"
-    notify-send -t "$NOTIFY_TIME" "xscreencapture.sh" "$(tail -1 -- "$PID_FILE")"
+    if kill -INT "$(head -1 -- "$PID_FILE")"
+    then
+        notify-send -t "$NOTIFY_TIME" -u normal "xscreencapture.sh" "$(tail -1 -- "$PID_FILE")"
+    else
+        notify-send -t "$NOTIFY_TIME" -u critical "xscreencapture.sh" "error"
+    fi
+
     rm -f -- "$PID_FILE"
     exit
 fi

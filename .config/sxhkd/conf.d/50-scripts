@@ -1,3 +1,23 @@
+# dmenu_run {{{
+
+# program launcher
+super + Return
+    xkblayout.sh; \
+    dmenu_run
+
+# }}}
+# st {{{
+
+super + ctrl + shift + Return
+    st.sh
+
+super + ctrl + Return
+    tabbed-st.sh
+
+super + ctrl + grave
+    scratchpad-st.sh
+
+# }}}
 # applications {{{
 
 super + Menu

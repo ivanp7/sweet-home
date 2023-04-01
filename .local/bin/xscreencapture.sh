@@ -83,7 +83,7 @@ case $TYPE in
             : ${VIDEO_CODEC:="h264_nvenc"}
         fi
 
-        VIDEO_FLAGS="-f x11grab -r ${RATE:-30} -s $SIZE -i ${DISPLAY}${DISPL} -vcodec ${VIDEO_CODEC:-libx264} ${VIDEO_FLAGS:-}"
+        VIDEO_FLAGS="-f x11grab -r ${RATE:-30} -s $SIZE -i ${DISPLAY}${DISPL} -vcodec ${VIDEO_CODEC:-libopenh264} ${VIDEO_FLAGS:-}"
 
         case $TYPE in
             *mic) AUDIO_FLAGS="$MIC_FLAGS ${AUDIO_FLAGS:-}" ;;

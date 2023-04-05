@@ -23,4 +23,9 @@ fbterm ()
     fbterm.sh "$1" && _p_mark_shell_inactive
 }
 
+X ()
+{
+    X.sh "$1" && _p_mark_shell_inactive
+}
+
 # vim: ft=zsh:

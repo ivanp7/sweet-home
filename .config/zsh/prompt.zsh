@@ -1,7 +1,6 @@
 PARENT_SHELL_PID=${PARENT_SHELL_PID_EXPORTED:-}
 export PARENT_SHELL_PID_EXPORTED=$$
 
-[ "$(id -u)" -eq 0 ] && export PROMPT_ROOT= || unset PROMPT_ROOT
 : ${_p_command_number:=1}
 
 _p_preexec ()

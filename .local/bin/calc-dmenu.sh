@@ -15,10 +15,10 @@ INPUT=$(tac -- "$HISTORY_FILE" | dmenu.sh -p "$DMENU_PROMPT" -l "$DMENU_LINES" -
 RESULT="$(calc.sh "$INPUT" 2>&1)"
 if [ "$?" -eq 0 ]
 then
-    { grep -Fxv "$INPUT" -- "$HISTORY_FILE"; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
+    { grep -Fxv -e "$INPUT" -- "$HISTORY_FILE" || true; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 
-    notify-send -t "$NOTIFY_TIME" -u normal "Calculator" "$RESULT"
+    notify-send -t "$NOTIFY_TIME" -u normal -- "Calculator" "$RESULT"
 else
-    notify-send -t "$NOTIFY_TIME" -u critical "Calculator" "error"
+    notify-send -t "$NOTIFY_TIME" -u critical -- "Calculator" "error"
 fi
 

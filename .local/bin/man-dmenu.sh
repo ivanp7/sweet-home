@@ -12,5 +12,5 @@ INPUT=$(tac -- "$HISTORY_FILE" | uniq | dmenu.sh -p "$DMENU_PROMPT" -l "$DMENU_L
 
 SCRATCHPAD="${SCRATCHPAD_MAN:-0}" scratchpad-st.sh -t "$INPUT - man" -e man $INPUT
 
-{ grep -Fxv "$INPUT" -- "$HISTORY_FILE"; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
+{ grep -Fxv "$INPUT" -- "$HISTORY_FILE" || true; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 

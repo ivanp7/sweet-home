@@ -9,9 +9,9 @@ if [ -f "$PID_FILE" ]
 then
     if kill -INT "$(head -1 -- "$PID_FILE")"
     then
-        notify-send -t "$NOTIFY_TIME" -u normal "xscreencapture.sh" "$(tail -1 -- "$PID_FILE")"
+        notify-send -t "$NOTIFY_TIME" -u normal -- "xscreencapture.sh" "$(tail -1 -- "$PID_FILE")"
     else
-        notify-send -t "$NOTIFY_TIME" -u critical "xscreencapture.sh" "error"
+        notify-send -t "$NOTIFY_TIME" -u critical -- "xscreencapture.sh" "error"
     fi
 
     rm -f -- "$PID_FILE"
@@ -29,11 +29,11 @@ INPUT=$(tac -- "$HISTORY_FILE" | dmenu -p "$DMENU_PROMPT" -l "$DMENU_LINES" -g "
 
 if [ -z "$INPUT" ]
 then
-    notify-send -t "$NOTIFY_TIME" "xscreencapture.sh" "Canceled."
+    notify-send -t "$NOTIFY_TIME" -- "xscreencapture.sh" "Canceled."
     exit
 elif [ ! -d "$INPUT" ]
 then
-    notify-send -u critical -t "$NOTIFY_TIME" "xscreencapture.sh" "$INPUT is not a directory."
+    notify-send -u critical -t "$NOTIFY_TIME" -- "xscreencapture.sh" "$INPUT is not a directory."
     exit 1
 fi
 
@@ -108,8 +108,8 @@ if [ -d "/proc/$PID" ]
 then
     echo "$PID" > "$PID_FILE"
     echo "$INPUT/$FILENAME" >> "$PID_FILE"
-    { grep -Fxv "$INPUT" -- "$HISTORY_FILE"; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
+    { grep -Fxv "$INPUT" -- "$HISTORY_FILE" || true; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 else
-    notify-send -u critical -t "$NOTIFY_TIME" "xscreencapture.sh" "error"
+    notify-send -u critical -t "$NOTIFY_TIME" -- "xscreencapture.sh" "error"
 fi
 

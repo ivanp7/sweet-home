@@ -31,7 +31,7 @@ then
     exit
 fi
 
-{ grep -Fxv "$INPUT" -- "$HISTORY_FILE"; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
+{ grep -Fxv -e "$INPUT" -- "$HISTORY_FILE" || true; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 
-notify-send -t "$NOTIFY_TIME" -u normal "xscreenshot.sh" "$INPUT/$FILENAME"
+notify-send -t "$NOTIFY_TIME" -u normal -- "xscreenshot.sh" "$INPUT/$FILENAME"
 

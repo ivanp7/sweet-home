@@ -44,5 +44,5 @@ s/Ь/'/g;   s/ь/'/g;
 s/Э/E/g;   s/э/e/g;
 s/Ю/Ju/g;  s/ю/ju/g;
 s/Я/Ja/g;  s/я/ja/g;
-")" -e sh -c "dict.sh -n '$INPUT' | less -mr"
+")" -e sh -c "sleep 0.1; dict.sh -n '$INPUT' | less -mr"
 

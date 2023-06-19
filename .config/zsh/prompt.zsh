@@ -158,7 +158,7 @@ fi
 
 _p_prompt ()
 {
-    PROMPT=""
+    PROMPT=" "
     PROMPT2=""
     RPROMPT=""
 

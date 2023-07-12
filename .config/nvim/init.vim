@@ -355,7 +355,7 @@ vnoremap <leader>z <Esc>:%s/<c-r>=GetEscapedVisual(0)<cr>//gc<left><left><left>
 
 function! ReplaceWith()
     let expr = GetEscapedVisual(0)
-    let expr_str = GetEscapedVisual(1)
+    let expr_str = GetVisual()
 
     call inputsave()
     let new_expr = input('replace /' . expr . '/ with: ', expr_str)
@@ -364,6 +364,8 @@ function! ReplaceWith()
         call inputrestore()
         return
     endif
+
+    let new_expr = EscapeString(new_expr, 1)
 
     let scope = input('replace /' . expr . '/ with /' . new_expr . '/ in: ', '%')
     call inputrestore()

@@ -5,7 +5,7 @@ EXECUTABLE="$1"
 shift 1
 
 MKTEMP_PATTERN="edex.$(basename -- "$EXECUTABLE").XXX"
-EDITED_EXECUTABLE="$(mktemp -p "$(dirname -- "$EXECUTABLE")" "~$MKTEMP_PATTERN")" ||
+EDITED_EXECUTABLE="$(mktemp -p "$(dirname -- "$EXECUTABLE")" ".$MKTEMP_PATTERN~")" ||
     EDITED_EXECUTABLE="$(mktemp -p "${TMPDIR:-/tmp}" "$MKTEMP_PATTERN")" || exit 126
 
 cleanup ()

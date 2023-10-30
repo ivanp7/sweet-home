@@ -17,6 +17,7 @@ if [ "$?" -eq 0 ]
 then
     { grep -Fxv -e "$INPUT" -- "$HISTORY_FILE" || true; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 
+    xclipa.sh "$RESULT"
     notify-send -t "$NOTIFY_TIME" -u normal -- "Calculator" "$RESULT"
 else
     notify-send -t "$NOTIFY_TIME" -u critical -- "Calculator" "error"

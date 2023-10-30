@@ -23,13 +23,17 @@ super + ctrl + grave
 super + Menu
     pass-dmenu.sh
 
-super + a
-    man-dmenu.sh
-
 super + equal
     calc-dmenu.sh
 
+super + a
+    man-dmenu.sh
+super + ctrl + F1
+    man-dmenu.sh
+
 super + d
+    dict-dmenu.sh
+super + ctrl + F2
     dict-dmenu.sh
 
 # }}}

@@ -65,7 +65,7 @@ shell_info ()
     local TextColor="$(_color 244)"
     local ValueColor="$(_color 15)"
 
-    echo "${TextColor}current date/time: ${ValueColor}$(date)${ColorReset}"
+    echo "${TextColor}current date/time: ${ValueColor}$(date +'%Y-%b-%d %a %H:%M:%S')${ColorReset}"
     echo "${TextColor}tty: ${ValueColor}$(tty)${TextColor}, X display: ${ValueColor}${DISPLAY:-none}${ColorReset}"
     echo "${TextColor}terminal: ${ValueColor}$TERM${TextColor}, ${ValueColor}${NumberOfColors}${TextColor} colors, ${ValueColor}$(tput cols)${TextColor}x${ValueColor}$(tput lines)${TextColor} cells${ColorReset}"
     echo "${TextColor}process chain: $(process_chain)${ColorReset}"

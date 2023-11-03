@@ -13,14 +13,14 @@ tx ()
     cd -- "$OLDPWD"
 }
 
-remote ()
-{
-    remote.py "$@" && _p_unset_active_shell_flag
-}
-
 fbterm ()
 {
     fbterm.sh "$1" && _p_unset_active_shell_flag
+}
+
+remote ()
+{
+    remote.py "$@" && _p_unset_active_shell_flag
 }
 
 X ()

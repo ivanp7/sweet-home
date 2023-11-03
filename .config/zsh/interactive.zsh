@@ -166,12 +166,12 @@ save ()
 {
     if [ -z "$_p_shell_output_dir" ]
     then
-        if [ ! -d "$TMPDIR_SESSION/shell_output/$$" ]
+        if [ ! -d "$TMPDIR_SESSION/output/$$" ]
         then
-            _p_shell_output_dir="$TMPDIR_SESSION/shell_output/$$"
+            _p_shell_output_dir="$TMPDIR_SESSION/output/$$"
             mkdir -p -- "$_p_shell_output_dir"
         else
-            _p_shell_output_dir="$(mktemp -d -p "$TMPDIR_SESSION/shell_output" "$$.XXXX")"
+            _p_shell_output_dir="$(mktemp -d -p "$TMPDIR_SESSION/output" "$$.XXXX")"
         fi
     fi
 

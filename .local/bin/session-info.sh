@@ -1,15 +1,16 @@
 #!/bin/sh
+set -u
 
 NumberOfColors=$(tput colors)
 
 ColorReset="\033[0m"
 _color ()
 {
-    if [ -n "$1" -a -z "$2" ]
+    if [ -n "${1:-}" -a -z "${2:-}" ]
     then printf "\033[38;5;${1}m"
-    elif [ -n "$1" -a -n "$2" ]
+    elif [ -n "${1:-}" -a -n "${2:-}" ]
     then printf "\033[38;5;${1}m\033[48;5;${2}m"
-    elif [ -z "$1" -a -n "$2" ]
+    elif [ -z "${1:-}" -a -n "${2:-}" ]
     then printf "\033[48;5;${2}m"
     else printf "\033[0m"
     fi
@@ -25,7 +26,7 @@ userhost ()
     local AtColor="${ColorNoUnderline}$(_color 244)"
     local HostColor="$(_color 15)${ColorUnderline}"
 
-    echo "${ColorReset}$1${UserColor}$(id -un)${AtColor}@${HostColor}$(cat /etc/hostname)${ColorReset}"
+    echo "${ColorReset}${1:-}${UserColor}$(id -un)${AtColor}@${HostColor}$(cat /etc/hostname)${ColorReset}"
 }
 
 process_chain ()
@@ -40,8 +41,8 @@ process_chain ()
         local ProcColor="$(_color 0 15)"
     fi
 
-    local ParentPID=$PPID
-    local PSTree="$(exec pstree -ls $ParentPID)"
+    local ParentPID="$PPID"
+    local PSTree="$(exec pstree -ls "$ParentPID")"
     local PSTree="$(echo "$PSTree" | head -1 |
         sed -E "s/-(-|[+])-/---/g; s/^---//; s/---pstree$//; s/---/\n/g" | head -n -2)"
 
@@ -57,10 +58,10 @@ process_chain ()
 
 shell_cmd ()
 {
-    ps -p $PPID -o exe --no-headers
+    ps -p "$PPID" -o exe --no-headers
 }
 
-shell_info ()
+session_info ()
 {
     local TextColor="$(_color 244)"
     local ValueColor="$(_color 15)"
@@ -72,5 +73,5 @@ shell_info ()
     echo "${TextColor}running ${ValueColor}$(shell_cmd)${TextColor} as $(userhost)${ColorReset}"
 }
 
-shell_info
+session_info
 

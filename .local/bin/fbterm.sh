@@ -2,7 +2,7 @@
 
 [ "$TERM" = "linux" ] || exit
 
-: ${XDG_CONFIG_HOME:-"$HOME/.config"}
+: ${XDG_CONFIG_HOME:="$HOME/.config"}
 
 : ${FRAMEBUFFER:="/dev/fb0"}
 : ${FBTERM_WALLPAPER:="$XDG_CONFIG_HOME/fbterm/wallpaper.fbimg"}

@@ -24,7 +24,7 @@ then
     exit 1
 fi
 
-( sleep $FBI_DELAY; cat -- "$FRAMEBUFFER" > "$OUTPUT" ) &
+( sleep "$FBI_DELAY"; cat -- "$FRAMEBUFFER" > "$OUTPUT" ) &
 fbi -noverbose -nocomments -nointeractive -autozoom -once \
-    -timeout $(($FBI_DELAY * 2)) -device "$FRAMEBUFFER" "$INPUT"
+    -timeout $(("$FBI_DELAY" * 2)) -device "$FRAMEBUFFER" "$INPUT"
 

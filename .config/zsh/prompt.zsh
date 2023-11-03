@@ -140,24 +140,24 @@ zle -N zle-line-finish
 
 _p_exit_trap ()
 {
-    if [ "$1" -eq 130 ] # SIGINT
-    then
-        # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator,
-        # while in fact you would be in INS mode
-        # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT,
-        # so if anything else depends on it, we will not break it
-        _p_set_abandoned_prompt
-        zle && { zle reset-prompt; zle -R; }
-    elif [ "$_p_in_prompt" ]
-    then
-        _p_set_abandoned_prompt
-    fi
-
+    [ -z "$_p_in_prompt" ] || _p_set_abandoned_prompt
     _p_unset_active_shell_flag
 
     clean_exit $1
 }
 trap '_p_exit_trap $?' EXIT ${=TRAPPED_SIGNALS}
+
+TRAPINT ()
+{
+    # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator,
+    # while in fact you would be in INS mode
+    # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT,
+    # so if anything else depends on it, we will not break it
+    _p_set_abandoned_prompt
+    zle && { zle reset-prompt; zle -R; }
+
+    return $((128 + $1))
+}
 
 # }}}
 

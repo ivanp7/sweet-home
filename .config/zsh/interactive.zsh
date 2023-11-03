@@ -160,6 +160,25 @@ zle -N rep
 bindkey '^g' rep
 
 # }}}
+# save command output to a tmp file {{{
+
+save ()
+{
+    if [ -z "$_p_shell_output_dir" ]
+    then
+        if [ ! -d "$TMPDIR_SESSION/shell_output/$$" ]
+        then
+            _p_shell_output_dir="$TMPDIR_SESSION/shell_output/$$"
+            mkdir -p -- "$_p_shell_output_dir"
+        else
+            _p_shell_output_dir="$(mktemp -d -p "$TMPDIR_SESSION/shell_output" "$$.XXXX")"
+        fi
+    fi
+
+    tee "$_p_shell_output_dir/$_p_command_number"
+}
+
+# }}}
 # fzf {{{
 
 if [ -f "/usr/share/fzf/key-bindings.zsh" ]

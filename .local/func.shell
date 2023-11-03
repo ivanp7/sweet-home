@@ -66,6 +66,13 @@ expect "Identity added: $home/.ssh/id_rsa ($home/.ssh/id_rsa)"
     fi
 }
 
+clean_exit ()
+{
+    [ ! -d "${TMPDIR_SESSION:-}" ] || find "$TMPDIR_SESSION" -type d -empty -delete
+    trap - EXIT # prevent possible second call of this function
+    exit $1
+}
+
 # }}}
 # appearance {{{
 

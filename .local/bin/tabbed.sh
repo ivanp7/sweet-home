@@ -18,9 +18,16 @@ else
     if [ "${TABBED_CLASS:-}" ]
     then
         mkdir -p -- "$(dirname -- "$TABBED_CLASS_FILE")"
-        trap 'rm -f -- "$TABBED_CLASS_FILE"' EXIT
+
+        clean_exit ()
+        {
+            rm -f -- "$TABBED_CLASS_FILE"
+            exit $1
+        }
+        [ -z "${TRAPPED_SIGNALS:-}" ] || trap 'clean_exit $?' $TRAPPED_SIGNALS
 
         tabbed -c -w "$TABBED_CLASS" -r 2 "$COMMAND" "$XEMBED_FLAG" xid "$@" > "$TABBED_CLASS_FILE"
+        clean_exit $?
     else
         exec tabbed -c -r 2 "$COMMAND" "$XEMBED_FLAG" xid "$@"
     fi

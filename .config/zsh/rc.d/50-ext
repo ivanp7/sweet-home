@@ -7,7 +7,7 @@ tx ()
         if [ -z "$1" ]
         then tmux attach || tmux new-session -x $COLUMNS -y $(($LINES-1)) -s default
         else tmux attach -t "$1" || tmux new-session -x $COLUMNS -y $(($LINES-1)) -s "$1"
-        fi && _p_mark_shell_inactive
+        fi && _p_unset_active_shell_flag
     fi
 
     cd -- "$OLDPWD"
@@ -15,17 +15,17 @@ tx ()
 
 remote ()
 {
-    remote.py "$@" && _p_mark_shell_inactive
+    remote.py "$@" && _p_unset_active_shell_flag
 }
 
 fbterm ()
 {
-    fbterm.sh "$1" && _p_mark_shell_inactive
+    fbterm.sh "$1" && _p_unset_active_shell_flag
 }
 
 X ()
 {
-    X.sh "$1" && _p_mark_shell_inactive
+    X.sh && _p_unset_active_shell_flag
 }
 
 # vim: ft=zsh:

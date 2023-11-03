@@ -1,3 +1,2 @@
 ssh_agent_add
-trap 'ssh_agent_kill' EXIT
 

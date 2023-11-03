@@ -1,7 +1,62 @@
-PARENT_SHELL_PID=${PARENT_SHELL_PID_EXPORTED:-}
-export PARENT_SHELL_PID_EXPORTED=$$
-
 : ${_p_command_number:=1}
+
+# auxiliary functions {{{
+# shell activity flag {{{
+
+_p_is_shell_inactive ()
+{
+    [ ! -f "$TMPDIR_SESSION/active_shell/$$" ]
+}
+
+_p_set_active_shell_flag ()
+{
+    mkdir -p -- "$TMPDIR_SESSION/active_shell"
+    touch -- "$TMPDIR_SESSION/active_shell/$$"
+}
+
+_p_unset_active_shell_flag ()
+{
+    _p_is_shell_inactive || rm -- "$TMPDIR_SESSION/active_shell/$$"
+}
+
+_p_parent_shell_pid=${_p_parent_shell_pid_exported:-}
+export _p_parent_shell_pid_exported=$$
+
+[ ! -f "$TMPDIR_SESSION/active_shell/$_p_parent_shell_pid" ] || rm -- "$TMPDIR_SESSION/active_shell/$_p_parent_shell_pid"
+
+# }}}
+# cursor & right prompt {{{
+
+_p_set_cursor_shape ()
+{
+    case $1 in
+        block) echo -ne '\e[2 q' ;;
+        underline) echo -ne '\e[4 q' ;;
+        bar) echo -ne '\e[6 q' ;;
+    esac
+}
+
+_p_set_insert_prompt ()
+{
+    RPROMPT=""
+    _p_set_cursor_shape bar
+}
+
+_p_set_vicommand_prompt ()
+{
+    RPROMPT="%{$(_color 15 0)%}%{$(_color 0 244)%} vi %{$(echo "$(_color 15 0)")%}%{$(echo "${_color_reset}")%}"
+    _p_set_cursor_shape block
+}
+
+_p_set_abandoned_prompt ()
+{
+    RPROMPT=""
+    _p_set_cursor_shape block
+}
+
+# }}}
+# }}}
+# hooks {{{
 
 _p_preexec ()
 {
@@ -10,7 +65,7 @@ _p_preexec ()
     _p_timer=$SECONDS
     _p_command_executed=true
 
-    _p_prompt_postcommand_preexec
+    echo "${_color_reset}"
 }
 add-zsh-hook preexec _p_preexec
 
@@ -44,38 +99,14 @@ _p_prompt_set_env_f ()
 }
 add-zsh-hook precmd _p_prompt_set_env_f
 
-_p_set_cursor_shape ()
-{
-    case $1 in
-        block) echo -ne '\e[2 q' ;;
-        underline) echo -ne '\e[4 q' ;;
-        bar) echo -ne '\e[6 q' ;;
-    esac
-}
-
-_p_set_insert_prompt ()
-{
-    RPROMPT=""
-    _p_set_cursor_shape bar
-}
-
-_p_set_vicommand_prompt ()
-{
-    RPROMPT="%{$(_color 15 0)%}%{$(_color 0 244)%} vi %{$(echo "$(_color 15 0)")%}%{$(echo "${_color_reset}")%}"
-    _p_set_cursor_shape block
-}
-
-_p_set_abandoned_prompt ()
-{
-    RPROMPT=""
-    _p_set_cursor_shape block
-}
-
 _p_prompt_init_f ()
 {
     _p_set_insert_prompt
 }
 add-zsh-hook precmd _p_prompt_init_f
+
+# }}}
+# ZLE widgets {{{
 
 zle-keymap-select ()
 {
@@ -104,55 +135,29 @@ zle-line-finish ()
 }
 zle -N zle-line-finish
 
-_p_prompt_postcommand_preexec ()
+# }}}
+# traps {{{
+
+_p_exit_trap ()
 {
-    echo "${_color_reset}"
-}
-
-# Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator, while in fact you would be in INS mode
-# Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT, so if anything else depends on it, we will not break it
-TRAPINT ()
-{
-    _p_set_abandoned_prompt
-    zle && { zle reset-prompt; zle -R; }
-    return $(( 128 + $1 ))
-}
-
-_p_trap_exit ()
-{
-    [ -z "$_p_in_prompt" ] || _p_set_abandoned_prompt
-}
-trap '_p_trap_exit' EXIT
-
-# shell activity {{{
-
-mkdir -p -- "$TMPDIR_SESSION/active_shell"
-
-_p_is_shell_inactive ()
-{
-    [ ! -f "$TMPDIR_SESSION/active_shell/$$" ]
-}
-
-_p_mark_shell_active ()
-{
-    touch -- "$TMPDIR_SESSION/active_shell/$$"
-}
-
-_p_mark_shell_inactive ()
-{
-    if [ -f "$TMPDIR_SESSION/active_shell/$$" ]
+    if [ "$1" -eq 130 ] # SIGINT
     then
-        rm -- "$TMPDIR_SESSION/active_shell/$$"
+        # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator,
+        # while in fact you would be in INS mode
+        # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT,
+        # so if anything else depends on it, we will not break it
+        _p_set_abandoned_prompt
+        zle && { zle reset-prompt; zle -R; }
+    elif [ "$_p_in_prompt" ]
+    then
+        _p_set_abandoned_prompt
     fi
+
+    _p_unset_active_shell_flag
+
+    clean_exit $1
 }
-
-# clean up on exit
-trap '_p_mark_shell_inactive' EXIT
-
-if [ -n "$PARENT_SHELL_PID" -a -f "$TMPDIR_SESSION/active_shell/$PARENT_SHELL_PID" ]
-then
-    rm -- "$TMPDIR_SESSION/active_shell/$PARENT_SHELL_PID"
-fi
+trap '_p_exit_trap $?' EXIT ${=TRAPPED_SIGNALS}
 
 # }}}
 
@@ -164,7 +169,7 @@ _p_prompt ()
 
     if _p_is_shell_inactive
     then
-        _p_mark_shell_active
+        _p_set_active_shell_flag
 
         printf "$_p_color_reset$(_color 15)\n"
         separator

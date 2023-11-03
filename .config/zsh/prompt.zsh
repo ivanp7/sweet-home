@@ -120,38 +120,38 @@ TRAPINT ()
 
 _p_trap_exit ()
 {
-    [ "$_p_in_prompt" ] && _p_set_abandoned_prompt
+    [ -z "$_p_in_prompt" ] || _p_set_abandoned_prompt
 }
 trap '_p_trap_exit' EXIT
 
 # shell activity {{{
 
-mkdir -p -- "$TMPDIR_SESSION/active_shells"
+mkdir -p -- "$TMPDIR_SESSION/active_shell"
 
 _p_is_shell_inactive ()
 {
-    [ ! -f "$TMPDIR_SESSION/active_shells/$$" ]
+    [ ! -f "$TMPDIR_SESSION/active_shell/$$" ]
 }
 
 _p_mark_shell_active ()
 {
-    touch -- "$TMPDIR_SESSION/active_shells/$$"
+    touch -- "$TMPDIR_SESSION/active_shell/$$"
 }
 
 _p_mark_shell_inactive ()
 {
-    if [ -f "$TMPDIR_SESSION/active_shells/$$" ]
+    if [ -f "$TMPDIR_SESSION/active_shell/$$" ]
     then
-        rm -- "$TMPDIR_SESSION/active_shells/$$"
+        rm -- "$TMPDIR_SESSION/active_shell/$$"
     fi
 }
 
 # clean up on exit
 trap '_p_mark_shell_inactive' EXIT
 
-if [ -n "$PARENT_SHELL_PID" -a -f "$TMPDIR_SESSION/active_shells/$PARENT_SHELL_PID" ]
+if [ -n "$PARENT_SHELL_PID" -a -f "$TMPDIR_SESSION/active_shell/$PARENT_SHELL_PID" ]
 then
-    rm -- "$TMPDIR_SESSION/active_shells/$PARENT_SHELL_PID"
+    rm -- "$TMPDIR_SESSION/active_shell/$PARENT_SHELL_PID"
 fi
 
 # }}}

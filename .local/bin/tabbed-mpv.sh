@@ -1,4 +1,4 @@
 #!/bin/sh
 
-setsid -f tabbed.sh --wid mpv-wrapper.sh --no-terminal --force-window=yes "$@" > /dev/null 2>&1 &
+nohup tabbed.sh --wid mpv-wrapper.sh --no-terminal --force-window=yes "$@" > /dev/null 2>&1 &
 

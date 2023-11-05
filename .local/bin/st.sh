@@ -1,4 +1,4 @@
 #!/bin/sh
 
-setsid -f st "$@" > /dev/null 2>&1 &
+nohup st "$@" > /dev/null 2>&1 &
 

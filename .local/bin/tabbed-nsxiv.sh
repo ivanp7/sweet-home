@@ -1,4 +1,4 @@
 #!/bin/sh
 
-setsid -f tabbed.sh -e nsxiv-wrapper.sh "$@" > /dev/null 2>&1 &
+nohup tabbed.sh -e nsxiv-wrapper.sh "$@" > /dev/null 2>&1 &
 

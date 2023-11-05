@@ -1,4 +1,4 @@
 #!/bin/sh
 
-setsid -f tabbed.sh -e zathura.sh "$@" > /dev/null 2>&1 &
+nohup tabbed.sh -e zathura.sh "$@" > /dev/null 2>&1 &
 

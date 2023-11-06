@@ -40,8 +40,8 @@ fi
 TYPE="$1"
 shift 1
 
-: ${SOURCE_SOUND:=$(pactl list short sources | grep alsa_output | head -1 | sed 's/\s.*//')}
-: ${SOURCE_MIC:=$(pactl list short sources | grep alsa_input | head -1 | sed 's/\s.*//')}
+: ${SOURCE_SOUND:=$(pactl list short sources | grep -F "$(pactl get-default-sink)" | sed 's/\s.*//')}
+: ${SOURCE_MIC:=$(pactl list short sources | grep -F "$(pactl get-default-source)" | sed 's/\s.*//')}
 
 : ${ACODEC:="aac"}
 
@@ -101,7 +101,9 @@ esac
 
 : ${FILENAME:="${FILENAME_PREFIX}_$(date "+%F_%T").${FILENAME_EXT}"}
 
-ffmpeg -y "$@" $AUDIO_FLAGS $VIDEO_FLAGS "$INPUT/$FILENAME" > /dev/null 2>&1 &
+echo "Running ffmpeg in background:"
+echo "ffmpeg -y  $@  $AUDIO_FLAGS $VIDEO_FLAGS \"$INPUT/$FILENAME\""
+nohup ffmpeg -y "$@" $AUDIO_FLAGS $VIDEO_FLAGS "$INPUT/$FILENAME" > /dev/null 2>&1 &
 PID=$!
 
 if [ -d "/proc/$PID" ]

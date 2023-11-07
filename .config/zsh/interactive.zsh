@@ -101,6 +101,7 @@ bindkey '^[[H' vi-beginning-of-line
 bindkey '^[[F' vi-end-of-line
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
+bindkey -M menuselect '^[[Z' reverse-menu-complete
 
 bindkey '\C-b' vi-backward-char
 bindkey '\C-f' vi-forward-char

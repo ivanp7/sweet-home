@@ -11,12 +11,21 @@ clean_exit ()
 }
 trap 'clean_exit $?' EXIT $TRAPPED_SIGNALS
 
-git status -s . 2> /dev/null | sed '/^\s*M\s*/!d; s/^\s*M\s*//' |
+if [ -z "$1" ]
+then
+    SED_PATTERN='/^ M /!d; s/^ M //'
+    GITDIFF_FLAGS=''
+else
+    SED_PATTERN='/^M  /!d; s/^M  //'
+    GITDIFF_FLAGS='--cached'
+fi
+
+git status -s . 2> /dev/null | sed "$SED_PATTERN" |
 while IFS="
 " read -r file
 do
     mkdir -p -- "$DIR/$(dirname -- "$file")"
-    git diff -- "$file" > "$DIR/$file.diff"
+    git diff $GITDIFF_FLAGS -- "$file" > "$DIR/$file.diff"
 done
 
 if ! rmdir -- "$DIR" 2> /dev/null

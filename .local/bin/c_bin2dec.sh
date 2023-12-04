@@ -4,5 +4,6 @@ BIN="$@"
 BIN="$(echo "$BIN" | tr -d ' ')"
 echo "$BIN" | grep -q "[^01]" && exit 1
 
-echo "obase=10; ibase=2; $BIN" | bc
+DEC="$(echo "obase=10; ibase=2; $BIN" | bc)"
+[ "$LEN" ] && echo "$DEC" | c_len.sh "$LEN" || echo "$DEC"
 

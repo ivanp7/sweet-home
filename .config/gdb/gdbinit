@@ -1,2 +1,4 @@
 set history remove-duplicates unlimited
 
+source ~/.config/gdb/dashboard
+

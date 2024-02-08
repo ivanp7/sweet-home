@@ -7,10 +7,11 @@ echo "1. Removing special files created during bootstrap..."
 echo
 
 cd -- "$(dirname -- "$0")"
+BOOTSTRAP_DIR="${YADM_BRANCH:+"branch/$YADM_BRANCH/"}bootstrap.d"
 
-if [ -d "bootstrap.d" ]
+if [ -d "$BOOTSTRAP_DIR" ]
 then
-    find -L "bootstrap.d" -type f | sort -r | while IFS="
+    find -L "$BOOTSTRAP_DIR" -type f | sort -r | while IFS="
 " read -r script
     do
         if [ -x "$script" ] && echo "$script" | grep -qv "##"
@@ -31,7 +32,7 @@ echo
 
 cd -- "$HOME"
 
-yadm ls-files | while IFS="
+yadm.sh ls-files | while IFS="
 " read -r file
 do
     rm -v -- "$file"
@@ -50,6 +51,7 @@ echo
 echo "3. Removing yadm repository..."
 echo
 
-rm -rf -- "$XDG_DATA_HOME/yadm/repo.git"
-rmdir -p --ignore-fail-on-non-empty -- "$XDG_DATA_HOME/yadm" "$XDG_CONFIG_HOME/yadm"
+rm -rf -- "$XDG_DATA_HOME/yadm${YADM_BRANCH:+"/branch/$YADM_BRANCH"}/repo.git"
+rmdir -p --ignore-fail-on-non-empty -- "$XDG_DATA_HOME/yadm${YADM_BRANCH:+"/branch/$YADM_BRANCH"}"
+rmdir -p --ignore-fail-on-non-empty -- "$XDG_CONFIG_HOME/yadm${YADM_BRANCH:+"/branch/$YADM_BRANCH"}"
 

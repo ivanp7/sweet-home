@@ -3,6 +3,8 @@
 
 alias spe='spectrum'
 
+alias yadm='yadm.sh '
+
 # }}}
 # functions {{{
 

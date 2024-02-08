@@ -4,10 +4,11 @@ set -eu
 . "$HOME/.local/env.shell"
 
 cd -- "$(dirname -- "$0")"
+BOOTSTRAP_DIR="${YADM_BRANCH:+"branch/$YADM_BRANCH/"}bootstrap.d"
 
-if [ -d "bootstrap.d" ]
+if [ -d "$BOOTSTRAP_DIR" ]
 then
-    find -L "bootstrap.d" -type f | sort | while IFS="
+    find -L "$BOOTSTRAP_DIR" -type f | sort | while IFS="
 " read -r script
     do
         if [ -x "$script" ] && echo "$script" | grep -qv "##"

@@ -29,6 +29,8 @@ alias diff='diff --color=auto'
 # }}}
 # miscellaneous {{{
 
+alias yadm='yadm.sh '
+
 alias cal='cal -3mw --color=auto'
 alias sep='separator'
 alias ssh256='TERM=xterm-256color ssh '

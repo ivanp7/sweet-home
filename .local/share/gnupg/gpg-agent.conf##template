@@ -1,5 +1,0 @@
-pinentry-program {{env.HOME}}/.local/bin/pinentry.sh
-
-default-cache-ttl 7200
-max-cache-ttl 28800
-

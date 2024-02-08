@@ -1,8 +1,0 @@
-#!/bin/sh
-
-WIDTH_RATIO=7/8
-HEIGHT_RATIO=7/8
-
-. ../rule_geometry
-echo "state=floating rectangle=$GEOMETRY"
-

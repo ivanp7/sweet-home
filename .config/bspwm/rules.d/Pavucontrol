@@ -1,5 +1,0 @@
-#!/bin/sh
-
-. ../rule_geometry
-echo "state=floating rectangle=$GEOMETRY"
-

@@ -1,4 +1,5 @@
 set history remove-duplicates unlimited
 
 source ~/.config/gdb/dashboard
+dashboard variables -style compact False
 

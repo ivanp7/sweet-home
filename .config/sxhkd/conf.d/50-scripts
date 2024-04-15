@@ -3,7 +3,7 @@
 # program launcher
 super + Return
     xkblayout.sh; \
-    dmenu_run
+    dmenu_run -p "Run" -l 10 -g 5
 
 # }}}
 # st {{{

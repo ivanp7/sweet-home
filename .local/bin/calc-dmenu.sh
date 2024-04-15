@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DMENU_PROMPT="Expression"
+DMENU_PROMPT="Calculator"
 : ${DMENU_LINES:=20}
 : ${DMENU_COLUMNS:=4}
 

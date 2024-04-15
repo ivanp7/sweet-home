@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DMENU_PROMPT="Word"
+DMENU_PROMPT="Dictionary"
 : ${DMENU_LINES:=20}
 : ${DMENU_COLUMNS:=10}
 

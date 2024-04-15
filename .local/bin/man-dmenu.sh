@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DMENU_PROMPT="Page"
+DMENU_PROMPT="Manual"
 : ${DMENU_LINES:=30}
 : ${DMENU_COLUMNS:=2}
 

@@ -183,6 +183,7 @@ _p_prompt ()
     printf "$_p_color_reset"
     [ -z "$_p_command_given" ] || echo
     prompt.sh
+    echo
 
     _p_set_insert_prompt
 }

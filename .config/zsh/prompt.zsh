@@ -1,5 +1,5 @@
 : ${_p_command_number:=1}
-: ${_p_command_given:=":"}
+: ${_p_prompt_newline:="true"}
 
 # auxiliary functions {{{
 # shell activity flag {{{
@@ -64,7 +64,8 @@ _p_preexec ()
     unset _p_in_prompt
 
     _p_timer=$SECONDS
-    _p_command_executed=true
+    _p_command_executed="true"
+    _p_prompt_newline="true"
 
     echo "${_color_reset}"
 }
@@ -74,7 +75,7 @@ _p_prompt_set_env_f ()
 {
     export PROMPT_EXIT_CODE="$?" # This needs to be first
 
-    _p_in_prompt=true
+    _p_in_prompt="true"
 
     if [ "$_p_command_executed" ]
     then
@@ -129,7 +130,6 @@ zle-line-finish ()
 {
     (( ${+terminfo[rmkx]} )) && echoti rmkx
 
-    _p_command_given="$BUFFER"
     _p_buffers[$_p_command_number]="$BUFFER"
 
     _p_set_abandoned_prompt
@@ -151,8 +151,6 @@ trap '_p_exit_trap $?' EXIT ${=TRAPPED_SIGNALS}
 
 TRAPINT ()
 {
-    _p_command_given="$BUFFER"
-
     # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator,
     # while in fact you would be in INS mode
     # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT,
@@ -181,7 +179,7 @@ _p_prompt ()
     fi
 
     printf "$_p_color_reset"
-    [ -z "$_p_command_given" ] || echo
+    [ -z "$_p_prompt_newline" ] || { echo; unset _p_prompt_newline; }
     prompt.sh
     echo
 

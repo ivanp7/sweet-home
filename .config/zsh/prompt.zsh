@@ -1,4 +1,5 @@
 : ${_p_command_number:=1}
+: ${_p_command_given:=":"}
 
 # auxiliary functions {{{
 # shell activity flag {{{
@@ -128,6 +129,7 @@ zle-line-finish ()
 {
     (( ${+terminfo[rmkx]} )) && echoti rmkx
 
+    _p_command_given="$BUFFER"
     _p_buffers[$_p_command_number]="$BUFFER"
 
     _p_set_abandoned_prompt
@@ -149,6 +151,8 @@ trap '_p_exit_trap $?' EXIT ${=TRAPPED_SIGNALS}
 
 TRAPINT ()
 {
+    _p_command_given="$BUFFER"
+
     # Fix a bug when you C-c in CMD mode and you'd be prompted with CMD mode indicator,
     # while in fact you would be in INS mode
     # Fixed by catching SIGINT (C-c), set vim_mode to INS and then repropagate the SIGINT,
@@ -176,7 +180,8 @@ _p_prompt ()
         session-info.sh
     fi
 
-    printf "$_p_color_reset\n"
+    printf "$_p_color_reset"
+    [ -z "$_p_command_given" ] || echo
     prompt.sh
 
     _p_set_insert_prompt

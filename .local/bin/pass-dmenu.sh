@@ -2,7 +2,7 @@
 
 DMENU_PROMPT="Password"
 : ${DMENU_LINES:=20}
-: ${DMENU_COLUMNS:=3}
+: ${DMENU_COLUMNS:=2}
 
 : ${NOTIFY_TIME:=3000}
 

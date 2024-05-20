@@ -14,9 +14,9 @@ elif [ ! -d "$(dirname -- "$OUTPUT")" ]
 then
     echo "Error: output directory does not exist"
     exit 1
-elif [ "$(id -u)" -ne 0 ]
+elif [ ! -r "$FRAMEBUFFER" ]
 then
-    echo "Error: this script is not run under root"
+    echo "Error: framebuffer device is not readable"
     exit 1
 elif tty | grep -qv '^/dev/tty[0-9]\+$'
 then

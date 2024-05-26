@@ -182,9 +182,6 @@ set cedit=\<C-Y>
 nnoremap <silent> <leader>e :enew<CR>
 nnoremap <silent> <leader>l :enew<CR>:set<Space>ft=lisp<CR>
 
-" Paste mode toggle
-autocmd VimEnter * set pastetoggle=<F2>
-
 " Switch language
 nnoremap <silent> <C-^> :let &iminsert = (&iminsert == 0 ? 1 : 0)<CR>
 nnoremap <silent> <C-S> :let &iminsert = (&iminsert == 0 ? 1 : 0)<CR>

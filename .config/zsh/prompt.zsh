@@ -1,6 +1,9 @@
 : ${_p_command_number:=1}
 : ${_p_prompt_newline:="true"}
 
+_p_prompt_py="prompt.py"
+_p_prompt_sh="prompt.sh"
+
 # auxiliary functions {{{
 # shell activity flag {{{
 
@@ -45,7 +48,7 @@ _p_set_insert_prompt ()
 
 _p_set_vicommand_prompt ()
 {
-    RPROMPT="%{$(_color 15 0)%}%{$(_color 0 244)%} vi %{$(echo "$(_color 15 0)")%}%{$(echo "${_color_reset}")%}"
+    RPROMPT="$(PROMPT_ESC="zsh" "$_p_prompt_py" right_prompt "$_p_command_number")"
     _p_set_cursor_shape block
 }
 
@@ -73,7 +76,7 @@ add-zsh-hook preexec _p_preexec
 
 _p_prompt_set_env_f ()
 {
-    export PROMPT_EXIT_CODE="$?" # This needs to be first
+    _p_exit_code="$?" # This must be the first
 
     _p_in_prompt="true"
 
@@ -85,19 +88,15 @@ _p_prompt_set_env_f ()
 
         if [ "$_p_timer" ]
         then
-            export PROMPT_EXEC_TIME=$(($SECONDS - $_p_timer))
+            _p_exec_time=$(($SECONDS - $_p_timer))
             unset _p_timer
 
-            [ "$PROMPT_EXEC_TIME" -lt 0 ] && unset PROMPT_EXEC_TIME
+            [ "$_p_exec_time" -lt 0 ] && unset _p_exec_time
         fi
     else
-        unset PROMPT_EXIT_CODE
-        unset PROMPT_EXEC_TIME
+        unset _p_exit_code
+        unset _p_exec_time
     fi
-
-    export PROMPT_STATUS="${SSH_TTY:+"${HOST}·"}$_p_command_number${STATUS:+"·"}${STATUS:-}"
-
-    unset PROMPT_PATH
 }
 add-zsh-hook precmd _p_prompt_set_env_f
 
@@ -165,7 +164,7 @@ TRAPINT ()
 
 _p_prompt ()
 {
-    PROMPT=" "
+    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}")"
     PROMPT2=""
     RPROMPT=""
 
@@ -178,10 +177,12 @@ _p_prompt ()
         session-info.sh
     fi
 
+
     printf "$_p_color_reset"
     [ -z "$_p_prompt_newline" ] || { echo; unset _p_prompt_newline; }
-    prompt.sh
-    echo
+
+    [ -z "$_p_in_prompt" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
+    "$_p_prompt_sh"; echo
 
     _p_set_insert_prompt
 }

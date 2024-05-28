@@ -1,5 +1,4 @@
 : ${_p_command_number:=1}
-: ${_p_prompt_newline:="true"}
 
 : ${_p_prompt_py:="prompt.py"}
 : ${_p_prompt_sh:="prompt.sh"}
@@ -48,7 +47,7 @@ _p_set_insert_prompt ()
 
 _p_set_vicommand_prompt ()
 {
-    RPROMPT="$(PROMPT_ESC="zsh" "$_p_prompt_py" right_prompt "$_p_command_number")"
+    RPROMPT="$(PROMPT_ESC="zsh" "$_p_prompt_py" right_prompt "$_p_command_number" 2> /dev/null)"
     _p_set_cursor_shape block
 }
 
@@ -68,7 +67,6 @@ _p_preexec ()
 
     _p_timer=$SECONDS
     _p_need_cmd_result_processing="true"
-    _p_prompt_newline="true"
 
     echo "${_color_reset}"
 }
@@ -173,13 +171,12 @@ _p_prompt ()
         session-info.sh
     fi
 
-    printf "$_p_color_reset"
-    [ -z "$_p_prompt_newline" ] || { echo; unset _p_prompt_newline; }
+    echo "$_p_color_reset"
 
-    [ -z "$_p_exit_code" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
-    "$_p_prompt_sh"; echo
+    [ -z "$_p_exit_code" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time 2> /dev/null; echo; }
+    "$_p_prompt_sh" 2> /dev/null ; echo
 
-    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}")"
+    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}" 2> /dev/null)"
     PROMPT2=""
     _p_set_insert_prompt
 }

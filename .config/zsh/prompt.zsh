@@ -41,19 +41,22 @@ _p_set_cursor_shape ()
 
 _p_set_insert_prompt ()
 {
-    RPROMPT=""
+    RPROMPT="$(PROMPT_ESC="zsh" "$_p_prompt_py" right_prompt "$_p_command_number")"
+    RPS2="$RPROMPT"
     _p_set_cursor_shape bar
 }
 
 _p_set_vicommand_prompt ()
 {
-    RPROMPT="$(PROMPT_ESC="zsh" "$_p_prompt_py" right_prompt "$_p_command_number" 2> /dev/null)"
+    RPROMPT="%S [vi] %s"
+    RPS2="$RPROMPT"
     _p_set_cursor_shape block
 }
 
 _p_set_abandoned_prompt ()
 {
     RPROMPT=""
+    RPS2=""
     _p_set_cursor_shape block
 }
 
@@ -173,10 +176,10 @@ _p_prompt ()
 
     echo "$_p_color_reset"
 
-    [ -z "$_p_exit_code" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time 2> /dev/null; echo; }
-    "$_p_prompt_sh" 2> /dev/null ; echo
+    [ -z "$_p_exit_code" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
+    "$_p_prompt_sh" ; echo
 
-    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}" 2> /dev/null)"
+    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}")"
     PROMPT2=""
     _p_set_insert_prompt
 }

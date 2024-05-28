@@ -336,8 +336,9 @@ if __name__ == '__main__':
 
         fg = style['normal_fg' if not prompt_root else 'root_fg']
         bg = style['normal_bg' if not prompt_root else 'root_bg']
+        bracket_fg = style['normal_bracket_fg' if not prompt_root else 'root_bracket_fg']
         prompt_string += p_bg(bg, None, chr_triangle_left, False) + \
-                p_fg(fg) + status + p_bg(None, bg, chr_triangle_right, True) + p_fg(fg) + 2*chr_bracket_right + " "
+                p_fg(fg) + status + p_bg(None, bg, chr_triangle_right, True) + p_fg(bracket_fg) + 2*chr_bracket_right + " "
         prompt_length += len(chr_triangle_left) + len(status) + len(chr_triangle_right) + 2*len(chr_bracket_right) + 1
     elif prompt_type == "right_prompt":
         style = prompt_style['rstatus']
@@ -358,5 +359,5 @@ if __name__ == '__main__':
         prompt_string = "%" + str(prompt_length) + "{" + prompt_string + "%}"
 
     print(prompt_string, end="")
-    print(prompt_length, end="", file=sys.stderr)
+    # print(prompt_length, end="", file=sys.stderr)
 

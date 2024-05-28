@@ -87,28 +87,32 @@ key[ShiftTab]="${terminfo[kcbt]}"
 
 # setup key accordingly
 [ -n "${key[Insert]}"    ] && bindkey -- "${key[Insert]}"    overwrite-mode
-[ -n "${key[Backspace]}" ] && bindkey -- "${key[Backspace]}" vi-backward-delete-char
-[ -n "${key[Delete]}"    ] && bindkey -- "${key[Delete]}"    vi-delete-char
+[ -n "${key[Backspace]}" ] && bindkey -- "${key[Backspace]}" backward-delete-char
+[ -n "${key[Delete]}"    ] && bindkey -- "${key[Delete]}"    delete-char
 [ -n "${key[PageUp]}"    ] && bindkey -- "${key[PageUp]}"    beginning-of-buffer-or-history
 [ -n "${key[PageDown]}"  ] && bindkey -- "${key[PageDown]}"  end-of-buffer-or-history
 [ -n "${key[ShiftTab]}"  ] && bindkey -- "${key[ShiftTab]}"  reverse-menu-complete
 
 bindkey '^[[A' up-line-or-beginning-search
 bindkey '^[[B' down-line-or-beginning-search
-bindkey '^[[D' vi-backward-char
-bindkey '^[[C' vi-forward-char
-bindkey '^[[H' vi-beginning-of-line
-bindkey '^[[F' vi-end-of-line
+bindkey '^[[D' backward-char
+bindkey '^[[C' forward-char
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+
 bindkey -M vicmd 'k' up-line-or-beginning-search
 bindkey -M vicmd 'j' down-line-or-beginning-search
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 
-bindkey '\C-b' vi-backward-char
-bindkey '\C-f' vi-forward-char
-bindkey '\C-a' vi-beginning-of-line
-bindkey '\C-e' vi-end-of-line
+bindkey '\C-b' backward-char
+bindkey '\C-f' forward-char
+bindkey '\C-a' beginning-of-line
+bindkey '\C-e' end-of-line
 bindkey '\C-p' up-line-or-beginning-search
 bindkey '\C-n' down-line-or-beginning-search
+bindkey '\C-u' backward-kill-line
+bindkey '\C-k' kill-line
+bindkey '\C-h' backward-delete-char
 
 bindkey '^[^M' self-insert-unmeta
 

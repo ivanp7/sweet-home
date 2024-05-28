@@ -274,8 +274,8 @@ if __name__ == '__main__':
 
         widget, widget_length = widget_directory(style, directory, depth_highlighted)
 
-        prompt_string += widget
-        prompt_length += widget_length
+        prompt_string += "→ " + widget
+        prompt_length += 2 + widget_length
 
         arg_index += 1
         permissions = sys.argv[arg_index] if len(sys.argv) > arg_index else ""

@@ -1,8 +1,8 @@
 : ${_p_command_number:=1}
 : ${_p_prompt_newline:="true"}
 
-_p_prompt_py="prompt.py"
-_p_prompt_sh="prompt.sh"
+: ${_p_prompt_py:="prompt.py"}
+: ${_p_prompt_sh:="prompt.sh"}
 
 # auxiliary functions {{{
 # shell activity flag {{{
@@ -67,7 +67,7 @@ _p_preexec ()
     unset _p_in_prompt
 
     _p_timer=$SECONDS
-    _p_command_executed="true"
+    _p_need_cmd_result_processing="true"
     _p_prompt_newline="true"
 
     echo "${_color_reset}"
@@ -80,9 +80,9 @@ _p_prompt_set_env_f ()
 
     _p_in_prompt="true"
 
-    if [ "$_p_command_executed" ]
+    if [ "$_p_need_cmd_result_processing" ]
     then
-        unset _p_command_executed
+        unset _p_need_cmd_result_processing
 
         _p_command_number=$(($_p_command_number + 1))
 
@@ -164,10 +164,6 @@ TRAPINT ()
 
 _p_prompt ()
 {
-    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}")"
-    PROMPT2=""
-    RPROMPT=""
-
     if _p_is_shell_inactive
     then
         _p_set_active_shell_flag
@@ -177,13 +173,14 @@ _p_prompt ()
         session-info.sh
     fi
 
-
     printf "$_p_color_reset"
     [ -z "$_p_prompt_newline" ] || { echo; unset _p_prompt_newline; }
 
-    [ -z "$_p_in_prompt" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
+    [ -z "$_p_exit_code" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
     "$_p_prompt_sh"; echo
 
+    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}")"
+    PROMPT2=""
     _p_set_insert_prompt
 }
 add-zsh-hook precmd _p_prompt

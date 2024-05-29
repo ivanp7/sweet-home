@@ -76,7 +76,7 @@ _p_preexec ()
     _p_timer=$SECONDS
     _p_need_cmd_result_processing="true"
 
-    [ "$TERM" = "linux" -a "$2" ] || printf "\033]0;\$ $2\007" # set terminal window title
+    [ "$TERM" = "linux" -a "$2" ] || printf "\033]0;zsh(${_p_command_number}) \$ $2\007" # set terminal window title
     echo "${_color_reset}"
 }
 add-zsh-hook preexec _p_preexec
@@ -180,7 +180,7 @@ _p_prompt ()
         session-info.sh
     fi
 
-    [ "$TERM" = "linux" ] || printf "\033]0;zsh @ ${PWD}\007" # set terminal window title
+    [ "$TERM" = "linux" ] || printf "\033]0;zsh(${_p_command_number}) -> ${PWD}\007" # set terminal window title
 
     echo "$_p_color_reset"
 

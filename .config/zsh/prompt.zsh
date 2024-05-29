@@ -179,6 +179,8 @@ _p_prompt ()
         session-info.sh
     fi
 
+    [ "$TERM" = "linux" ] || printf "\033]0;zsh: ${PWD}\007" # set terminal window title
+
     echo "$_p_color_reset"
 
     [ -z "$_p_exit_code" ] || { PROMPT_ESC= "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }

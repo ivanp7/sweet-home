@@ -260,8 +260,8 @@ if __name__ == '__main__':
             exec_time = sys.argv[arg_index]
             if exec_time:
                 if exit_code:
-                    prompt_string += " "
-                    prompt_length += 1
+                    prompt_string += " after "
+                    prompt_length += 7
 
                 widget, widget_length = widget_exec_time(style, int(exec_time))
 

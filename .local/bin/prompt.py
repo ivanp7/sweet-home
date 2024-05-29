@@ -75,7 +75,7 @@ def widget_exit_code(style: dict, code: str) -> str:
 def widget_exec_time(style: dict, seconds: int) -> str:
     """Execution time widget.
     """
-    if not seconds:
+    if seconds is None:
         return "", 0
 
     minutes = seconds // 60
@@ -92,7 +92,7 @@ def widget_exec_time(style: dict, seconds: int) -> str:
         text = f"{hours}h{minutes}m"
     elif minutes > 0:
         text = f"{minutes}m{seconds}s"
-    elif seconds > 0:
+    else:
         text = f"{seconds}s"
 
     return p_fg(style['fg']) + text, len(text)
@@ -240,33 +240,36 @@ if __name__ == '__main__':
     if prompt_type == "cmd_result":
         arg_index += 1
         if len(sys.argv) > arg_index:
-            style = prompt_style['exit_code']
-
             exit_code = sys.argv[arg_index]
             if exit_code:
+                style = prompt_style['exit_code']
+
                 widget, widget_length = widget_exit_code(style, exit_code)
 
                 bg = style['success_bg' if exit_code == "0" else 'failure_bg']
-                prompt_string += p_bg(bg, None, chr_triangle_left, False) + \
-                        widget + p_bg(None, bg, chr_triangle_right, True)
-                prompt_length += len(chr_triangle_left) + widget_length + len(chr_triangle_right)
+                prompt_string += p_fg(bg) + chr_bracket_left + p_bg(bg, None, chr_triangle_left, False) + \
+                        widget + p_bg(None, bg, chr_triangle_right, True) + p_fg(bg) + chr_bracket_right
+                prompt_length += len(chr_bracket_left) + len(chr_triangle_left) + widget_length + \
+                        len(chr_triangle_right) + len(chr_bracket_right)
 
         arg_index += 1
         if len(sys.argv) > arg_index:
-            style = prompt_style['exec_time']
-            if exit_code:
-                style['fg'] = bg
-
             exec_time = sys.argv[arg_index]
             if exec_time:
+                style = prompt_style['exec_time']
                 if exit_code:
-                    prompt_string += " after "
-                    prompt_length += 7
+                    style['fg'] = bg
 
-                widget, widget_length = widget_exec_time(style, int(exec_time))
+                exec_time = int(exec_time)
+                if exec_time > 0:
+                    if exit_code:
+                        prompt_string += " after "
+                        prompt_length += 7
 
-                prompt_string += widget
-                prompt_length += widget_length
+                    widget, widget_length = widget_exec_time(style, exec_time)
+
+                    prompt_string += widget
+                    prompt_length += widget_length
     elif prompt_type == "pwd":
         style = prompt_style['path']
 

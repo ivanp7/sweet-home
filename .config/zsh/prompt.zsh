@@ -3,6 +3,10 @@
 : ${_p_prompt_py:="prompt.py"}
 : ${_p_prompt_sh:="prompt.sh"}
 
+[ "$TERM" != "linux" ] &&
+    export PROMPT_CHARS="" ||
+    export PROMPT_CHARS="◀▶<>"
+
 # auxiliary functions {{{
 # shell activity flag {{{
 
@@ -25,7 +29,8 @@ _p_unset_active_shell_flag ()
 _p_parent_shell_pid=${_p_parent_shell_pid_exported:-}
 export _p_parent_shell_pid_exported=$$
 
-[ ! -f "$TMPDIR_SESSION/active_shell/$_p_parent_shell_pid" ] || rm -- "$TMPDIR_SESSION/active_shell/$_p_parent_shell_pid"
+[ ! -f "$TMPDIR_SESSION/active_shell/$_p_parent_shell_pid" ] ||
+    rm -- "$TMPDIR_SESSION/active_shell/$_p_parent_shell_pid"
 
 # }}}
 # cursor & right prompt {{{
@@ -176,11 +181,12 @@ _p_prompt ()
 
     echo "$_p_color_reset"
 
-    [ -z "$_p_exit_code" ] || { "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
-    "$_p_prompt_sh" ; echo
+    [ -z "$_p_exit_code" ] || { PROMPT_ESC= "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
+    PROMPT_ESC= "$_p_prompt_sh" ; echo
 
-    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" "$_p_prompt_py" left_prompt "${USER}@${HOST}")"
-    PROMPT2=""
+    PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" \
+        "$_p_prompt_py" left_prompt "${USER}@${HOST}")"
+    PROMPT2="  "
     _p_set_insert_prompt
 }
 add-zsh-hook precmd _p_prompt

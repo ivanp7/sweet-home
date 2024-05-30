@@ -38,8 +38,8 @@ compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION" -i
 _comp_options+=(globdots) # Include hidden files
 
 # syntax highlighting
-if [ -f "/usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh" ]
-then   . /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh # Gentoo
+if [ -f "/usr/share/zsh/site-contrib/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]
+then   . /usr/share/zsh/site-contrib/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # Gentoo
 elif [ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]
 then     . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh # Arch/Artix
 elif [ -f "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]

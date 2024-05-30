@@ -97,7 +97,7 @@ def widget_exec_time(style: dict, seconds: int) -> str:
 
     return p_fg(style['fg']) + text, len(text)
 
-def widget_directory(style: dict, path: str, depth_highlighted: int=0) -> str:
+def widget_path(style: dict, path: str, is_directory: bool=True, depth_highlighted: int=0) -> str:
     """Directory path widget.
     """
     if not path:
@@ -117,7 +117,8 @@ def widget_directory(style: dict, path: str, depth_highlighted: int=0) -> str:
     nonprint_color = style['nonprint_fg']
     nonprint_char = style['nonprint_char']
 
-    separators = [f"{i%10}" for i in range(len(components), 0, -1)]
+    sep_shift = int(not is_directory)
+    separators = [f"{i%10}" for i in range(len(components) - sep_shift, -sep_shift, -1)]
 
     for i, component, sep in zip(range(len(components)), components, separators):
         s += p_fg(separator_color) + sep
@@ -279,7 +280,7 @@ if __name__ == '__main__':
         arg_index += 1
         depth_highlighted = int(sys.argv[arg_index]) if len(sys.argv) > arg_index else 0
 
-        widget, widget_length = widget_directory(style, directory, depth_highlighted)
+        widget, widget_length = widget_path(style, directory, True, depth_highlighted)
 
         prompt_string += "→ " + widget
         prompt_length += 2 + widget_length

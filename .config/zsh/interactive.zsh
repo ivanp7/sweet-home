@@ -8,9 +8,10 @@ mkdir -p -- "$XDG_STATE_HOME/zsh"
 # options
 HISTFILE="$XDG_STATE_HOME/zsh/history"
 HISTSIZE=100000
-SAVEHIST=10000
+SAVEHIST=$HISTSIZE
 
-setopt APPEND_HISTORY HIST_IGNORE_DUPS HIST_FIND_NO_DUPS
+setopt APPEND_HISTORY HIST_IGNORE_ALL_DUPS HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
 setopt AUTO_PUSHD PUSHD_IGNORE_DUPS
 setopt NOMATCH COMPLETE_ALIASES
 setopt IGNORE_EOF
@@ -34,6 +35,8 @@ zstyle ':completion:*' add-space false
 zstyle ':completion:*' menu select
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
 zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION" -i
 _comp_options+=(globdots) # Include hidden files
 

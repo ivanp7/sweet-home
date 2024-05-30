@@ -38,7 +38,9 @@ compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION" -i
 _comp_options+=(globdots) # Include hidden files
 
 # syntax highlighting
-zsh_syntax_highlighting=$(find /usr/share/zsh -type f -name zsh-syntax-highlighting.zsh 2> /dev/null)
+zsh_syntax_highlighting=$(find /usr/share/zsh -type f -name "zsh-syntax-highlighting.zsh" 2> /dev/null)
+[ -f "$zsh_syntax_highlighting" ] || zsh_syntax_highlighting=$(find /usr/share/zsh-syntax-highlighting \
+    -type f -name "zsh-syntax-highlighting.zsh" 2> /dev/null)
 
 [ ! -f "$zsh_syntax_highlighting" ] ||
      . "$zsh_syntax_highlighting"

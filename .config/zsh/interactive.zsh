@@ -38,16 +38,17 @@ compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION" -i
 _comp_options+=(globdots) # Include hidden files
 
 # syntax highlighting
-zsh_syntax_highlighting=$(find /usr/share/zsh -type f -name zsh-syntax-highlighting.zsh 2> /dev/null) &&
-. "$zsh_syntax_highlighting"
+zsh_syntax_highlighting=$(find /usr/share/zsh -type f -name zsh-syntax-highlighting.zsh 2> /dev/null)
+
+[ ! -f "$zsh_syntax_highlighting" ] ||
+     . "$zsh_syntax_highlighting"
+
+# "command not found"
+[ ! -f "/usr/share/doc/pkgfile/command-not-found.zsh" ] ||
+     . "/usr/share/doc/pkgfile/command-not-found.zsh"
 
 # dircolors
 eval $(dircolors)
-
-# "command not found"
-if [ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]
-then   . /usr/share/doc/pkgfile/command-not-found.zsh
-fi
 
 # freeze terminal (disable changes of the settings except screen size)
 ttyctl -f
@@ -182,13 +183,11 @@ save ()
 # }}}
 # fzf {{{
 
-if [ -f "/usr/share/fzf/key-bindings.zsh" ]
-then   . /usr/share/fzf/key-bindings.zsh
-fi
+[ ! -f "/usr/share/fzf/key-bindings.zsh" ] ||
+     . "/usr/share/fzf/key-bindings.zsh"
 
-if [ -f "/usr/share/fzf/completion.zsh" ]
-then   . /usr/share/fzf/completion.zsh
-fi
+[ ! -f "/usr/share/fzf/completion.zsh" ] ||
+     . "/usr/share/fzf/completion.zsh"
 
 bindkey '^y' fzf-cd-widget
 

@@ -163,21 +163,22 @@ def widget_git(style: dict, head: str, head_detached: bool=False,
             s += p_fg(style['behind_fg']) + "↓" + num
             slen += 1 + len(num)
 
-    if merging or untracked or modified or staged:
+    if merging:
+        s += " " + p_fg(style['merging_fg']) + "↕"
+        slen += 2
+
+    if untracked or modified or staged:
         s += " "
         slen += 1
 
-        if merging:
-            s += p_fg(style['merging_fg']) + "↕"
-            slen += 1
         if untracked:
-            s += p_fg(style['untracked_fg']) + "•"
+            s += p_fg(style['untracked_fg']) + "■"
             slen += 1
         if modified:
-            s += p_fg(style['modified_fg']) + "•"
+            s += p_fg(style['modified_fg']) + "■"
             slen += 1
         if staged:
-            s += p_fg(style['staged_fg']) + "•"
+            s += p_fg(style['staged_fg']) + "■"
             slen += 1
 
     return s, slen

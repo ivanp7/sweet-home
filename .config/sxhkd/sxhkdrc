@@ -139,6 +139,8 @@ super + {Cyrillic_ze,Cyrillic_i,Cyrillic_be,Cyrillic_yu}
 # focus the next/previous node in the current desktop
 super + {_,shift + }c
     bspc node -f {next,prev}.local.!hidden.window
+super + {button5,button4}
+    bspc node -f {next,prev}.local.!hidden.window
 super + {_,shift + }Cyrillic_es
     bspc node -f {next,prev}.local.!hidden.window
 

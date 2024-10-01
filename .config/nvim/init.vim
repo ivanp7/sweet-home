@@ -507,6 +507,10 @@ if isdirectory($XDG_CACHE_HOME . '/nvim/plugged')
 
     colorscheme monochrome
 
+    " background transparency
+    highlight Normal guibg=none ctermbg=none
+    highlight NonText guibg=none ctermbg=none
+
     " tweak color scheme
     highlight CursorLine        guibg=#444444
     highlight CursorColumn      guibg=#444444

@@ -7,10 +7,11 @@ export PREFIX="$(cat /sys/class/tty/tty0/active):$(id -un)"
 
 MONITOR_PRIMARY="$(bspwm-monitor-info.sh name primary)"
 
+MONITOR="$MONITOR_PRIMARY" polybar --reload top &
+
 xrandr | sed '/ [0-9]\+x[0-9]\++[0-9]\++[0-9]\+ /!d; s/ .*//' | while IFS="
 " read -r monitor
 do
-    [ "$monitor" = "$MONITOR_PRIMARY" ] && export TRAY_POS="right" || export TRAY_POS="none"
-    MONITOR="$monitor" polybar --reload top &
+    [ "$monitor" = "$MONITOR_PRIMARY" ] || MONITOR="$monitor" polybar --reload top &
 done
 

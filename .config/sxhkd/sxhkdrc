@@ -130,6 +130,12 @@ super + {_,shift + }{h,j,k,l}
 super + {_,shift + }{Cyrillic_er,Cyrillic_o,Cyrillic_el,Cyrillic_de}
     bspc node -{f,s} {west,south,north,east}
 
+# focus the monitor in the given direction
+super + alt + ctrl + {_,shift + }{h,j,k,l}
+    bspc monitor -{f,s} {west,south,north,east}
+super + alt + ctrl + {_,shift + }{Cyrillic_er,Cyrillic_o,Cyrillic_el,Cyrillic_de}
+    bspc monitor -{f,s} {west,south,north,east}
+
 # focus the node for the given path jump
 super + {p,b,comma,period}
     bspc node -f @{parent,brother,first,second}

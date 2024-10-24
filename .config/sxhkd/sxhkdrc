@@ -94,15 +94,15 @@ super + ctrl + Cyrillic_te
     bspwm-window-hide.sh
 
 # unhide window
-super + shift + n
+super + n
     bspwm-window-unhide.sh
-super + shift + Cyrillic_te
+super + Cyrillic_te
     bspwm-window-unhide.sh
 
 # focus window
-super + n
+super + ctrl + f
     bspwm-window-focus.sh
-super + Cyrillic_te
+super + ctrl + Cyrillic_a
     bspwm-window-focus.sh
 
 # }}}

@@ -10,7 +10,7 @@ touch -- "$HISTORY_FILE"
 INPUT=$(tac -- "$HISTORY_FILE" | uniq | dmenu -p "$DMENU_PROMPT" -l "$DMENU_LINES" -g "$DMENU_COLUMNS" | head -1)
 [ "$INPUT" ] || exit
 
-SCRATCHPAD="${SCRATCHPAD_DICT:-0}" scratchpad-st.sh -t "$(echo "$INPUT - sdcv" | sed "
+SCRATCHPAD="${SCRATCHPAD_DICT:-0}" sp-st.sh -t "$(echo "$INPUT - sdcv" | sed "
 s/А/A/g;   s/а/a/g;
 s/Б/B/g;   s/б/b/g;
 s/В/V/g;   s/в/v/g;

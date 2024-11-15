@@ -14,7 +14,7 @@ INPUT=$(man -k "" | # tac -- "$HISTORY_FILE"
 
 if man $INPUT > /dev/null 2>&1
 then
-    SCRATCHPAD="${SCRATCHPAD_MAN:-0}" scratchpad-st.sh -t "$INPUT - man" -e man $INPUT
+    SCRATCHPAD="${SCRATCHPAD_MAN:-0}" sp-st.sh -t "$INPUT - man" -e man $INPUT
 
     { grep -Fxv "$INPUT" -- "$HISTORY_FILE" || true; echo "$INPUT"; } | sponge -- "$HISTORY_FILE"
 fi

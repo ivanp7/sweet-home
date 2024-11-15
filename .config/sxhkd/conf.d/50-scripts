@@ -14,7 +14,7 @@ super + ctrl + Return
     tabbed-st.sh
 
 super + ctrl + grave
-    scratchpad-st.sh
+    sp-st.sh
 
 # }}}
 # applications {{{

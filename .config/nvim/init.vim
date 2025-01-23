@@ -25,6 +25,8 @@ set wildmode    =longest,list,full
 
 set synmaxcol   =400      " Only highlight the first 400 columns.
 
+set linebreak             " Don't break words while breaking lines
+
 set mouse       =a
 
 set termguicolors

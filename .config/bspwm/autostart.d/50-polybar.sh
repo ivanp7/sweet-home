@@ -7,7 +7,7 @@ export PREFIX="$(id -un)@$(cat /sys/class/tty/tty0/active)"
 
 MONITOR_PRIMARY="$(bspwm-monitor-info.sh name primary)"
 
-MONITOR="$MONITOR_PRIMARY" polybar --reload top &
+MONITOR="$MONITOR_PRIMARY" polybar --reload top & sleep 1 # allow the system tray to appear on the primary monitor
 
 xrandr | sed '/ [0-9]\+x[0-9]\++[0-9]\++[0-9]\+ /!d; s/ .*//' | while IFS="
 " read -r monitor

@@ -441,7 +441,6 @@ nnoremap <silent> <leader>n :set relativenumber!<CR>
 
 " ******************** termdebug **************************
 
-packadd termdebug
 let g:termdebug_wide = 1
 
 " }}}

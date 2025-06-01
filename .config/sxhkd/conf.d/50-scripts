@@ -19,6 +19,8 @@ super + ctrl + grave
 # }}}
 # applications {{{
 
+super + ctrl + slash
+    pass-dmenu.sh
 super + Menu
     pass-dmenu.sh
 

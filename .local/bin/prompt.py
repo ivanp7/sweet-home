@@ -22,6 +22,7 @@ def color1(num: int=None, fg: bool=True) -> str:
 
     return s
 
+
 def color2(fg: int=None, bg: int=None, transparent_bg: bool=False) -> str:
     """Change foreground and background color of text.
     """
@@ -43,6 +44,7 @@ def p_fg(fg: int) -> str:
     """Set foreground color.
     """
     return color2(fg=fg)
+
 
 def p_bg(bg: int, prev_bg: int=None, trans: str="", prev_bg_to_fg: bool=True) -> str:
     """Perform background color transition.
@@ -72,6 +74,7 @@ def widget_exit_code(style: dict, code: str) -> str:
         text = style.get('failure_text', {}).get(code, code)
         return p_fg(style['failure_fg']) + text, len(text)
 
+
 def widget_exec_time(style: dict, seconds: int) -> str:
     """Execution time widget.
     """
@@ -96,6 +99,7 @@ def widget_exec_time(style: dict, seconds: int) -> str:
         text = f"{seconds}s"
 
     return p_fg(style['fg']) + text, len(text)
+
 
 def widget_path(style: dict, path: str, is_directory: bool=True, depth_highlighted: int=0) -> str:
     """Directory path widget.
@@ -138,6 +142,7 @@ def widget_path(style: dict, path: str, is_directory: bool=True, depth_highlight
                 slen += len(part)
 
     return s, slen
+
 
 def widget_git(style: dict, head: str, head_detached: bool=False,
                commits_ahead: int=0, commits_behind: int=0, merging: bool=False,
@@ -182,6 +187,7 @@ def widget_git(style: dict, head: str, head_detached: bool=False,
             slen += 1
 
     return s, slen
+
 
 def widget_permissions(style: dict, readable: bool=True, writable: bool=True, executable: bool=True,
                        setuid: bool=False, setgid: bool=False, sticky: bool=False) -> str:
@@ -272,6 +278,16 @@ if __name__ == '__main__':
 
                     prompt_string += widget
                     prompt_length += widget_length
+
+        arg_index += 1
+        if len(sys.argv) > arg_index:
+            datetime = sys.argv[arg_index]
+            if datetime:
+                style = prompt_style['datetime']
+
+                prompt_string += p_fg(style['fg']) + " (" + datetime + ")"
+                prompt_length += 2 + len(datetime) + 1
+
     elif prompt_type == "pwd":
         style = prompt_style['path']
 
@@ -337,6 +353,7 @@ if __name__ == '__main__':
 
             prompt_string += " " + widget
             prompt_length += 1 + widget_length
+
     elif prompt_type == "left_prompt":
         style = prompt_style['lstatus']
 
@@ -349,6 +366,7 @@ if __name__ == '__main__':
         prompt_string += p_bg(bg, None, chr_triangle_left, False) + \
                 p_fg(fg) + status + p_bg(None, bg, chr_triangle_right, True) + p_fg(bracket_fg) + 2*chr_bracket_right + " "
         prompt_length += len(chr_triangle_left) + len(status) + len(chr_triangle_right) + 2*len(chr_bracket_right) + 1
+
     elif prompt_type == "right_prompt":
         style = prompt_style['rstatus']
 

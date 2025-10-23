@@ -98,6 +98,8 @@ _p_prompt_set_env_f ()
             _p_exec_time=$(($SECONDS - $_p_timer))
             unset _p_timer
 
+            _p_exec_datetime=$(date +'%b-%d %H:%M:%S')
+
             [ "$_p_exec_time" -lt 0 ] && unset _p_exec_time
         fi
     else
@@ -184,7 +186,8 @@ _p_prompt ()
 
     echo "$_p_color_reset"
 
-    [ -z "$_p_exit_code" ] || { PROMPT_ESC= "$_p_prompt_py" cmd_result $_p_exit_code $_p_exec_time; echo; }
+    [ -z "$_p_exit_code" ] || {
+        PROMPT_ESC= "$_p_prompt_py" cmd_result "$_p_exit_code" "$_p_exec_time" "$_p_exec_datetime"; echo; }
     PROMPT_ESC= "$_p_prompt_sh" ; echo
 
     PROMPT="$(PROMPT_ESC="zsh" PROMPT_ROOT="$([ "$(id -u)" = "0" ] && echo "y")" \

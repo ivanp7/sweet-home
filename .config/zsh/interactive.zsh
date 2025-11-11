@@ -16,6 +16,7 @@ setopt AUTO_PUSHD PUSHD_IGNORE_DUPS
 setopt NOMATCH COMPLETE_ALIASES
 setopt IGNORE_EOF
 unsetopt BEEP NOTIFY
+unsetopt AUTO_PARAM_KEYS AUTO_REMOVE_SLASH
 
 autoload -Uz add-zsh-hook
 
@@ -39,6 +40,9 @@ zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
 zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 compinit -d "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION" -i
 _comp_options+=(globdots) # Include hidden files
+
+ZLE_REMOVE_SUFFIX_CHARS=$''
+ZLE_SPACE_SUFFIX_CHARS=$''
 
 # syntax highlighting
 zsh_syntax_highlighting=$(find /usr/share/zsh -type f -name "zsh-syntax-highlighting.zsh" 2> /dev/null)

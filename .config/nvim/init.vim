@@ -498,7 +498,7 @@ if isdirectory($XDG_CACHE_HOME . '/nvim/plugged')
     " ******************** vim-sneak **************************
 
     let g:sneak#label = 1
-    let g:sneak#target_labels = ";sftunq/[]SFGHLTUNRMZ?0"
+    let g:sneak#target_labels = ";sftunq/[]SFGHLTUNMZ?0"
     let g:sneak#s_next = 1
 
     " }}}

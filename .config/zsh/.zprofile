@@ -1,7 +1,7 @@
 # PATH have been reset, restore it
-unset USERPATH
+unset PATH_USER LD_LIBRARY_PATH_USER
 . "$HOME/.local/env.path.shell"
 
-# ROOTPATH have been reset, restore it
-export ROOTPATH="$PATH"
+# PATH_ROOT have been reset, restore it
+export PATH_ROOT="$PATH"
 

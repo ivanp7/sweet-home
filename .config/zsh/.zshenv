@@ -1,5 +1,5 @@
-. "$HOME/.local/env.xdg.shell"  # 1. define XDG paths and USER_BINARIES_PATH
-. "$HOME/.local/env.path.shell" # 2. add USER_BINARIES_PATH to PATH
+. "$HOME/.local/env.xdg.shell"  # 1. define XDG paths, USER_BINARIES_PATH, and USER_LIBRARIES_PATH
+. "$HOME/.local/env.path.shell" # 2. add USER_BINARIES_PATH to PATH, add USER_LIBRARIES_PATH to LD_LIBRARY_PATH
 . "$HOME/.local/env.tmp.shell"  # 3. define TMPDIR and TMPDIR_SESSION
 . "$HOME/.local/env.sig.shell"  # 4. define TRAPPED_SIGNALS
 
